@@ -23,4 +23,9 @@ public class TankMover : Mover
         Vector3 moveVector = direction.normalized * speed * Time.deltaTime;
         objectBody.MovePosition(objectBody.position + moveVector);
     }
+
+    public override void Rotate(float speed)
+    {
+        transform.Rotate(0, (speed * Time.deltaTime), 0);
+    }
 }
