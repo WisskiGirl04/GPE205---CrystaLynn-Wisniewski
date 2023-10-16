@@ -10,6 +10,8 @@ public abstract class Pawn : MonoBehaviour
     public float turnSpeed;
     // Variable to hold our Mover
     public Mover mover;
+    // Variable to hold our turbo speed
+    public float turboSpeed;
 
     // Start is called before the first frame update
     public virtual void Start()
