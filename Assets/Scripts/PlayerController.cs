@@ -12,6 +12,16 @@ public class PlayerController : Controller
     // Start is called before the first frame update
     public override void Start()
     {
+        // If(when) we have a GameManager
+        if (GameManager.instance != null)
+        {
+            // And we have a player(s) list
+            if (GameManager.instance.playersList != null)
+            {
+                // Add the PlayerControllerObject that is being created to the list
+                GameManager.instance.playersList.Add(this);
+            }
+        }
         // Run the base (parent) class's Start
         base.Start();
     }
@@ -46,6 +56,20 @@ public class PlayerController : Controller
         if (Input.GetKey(rotateCounterClockwiseKey))
         {
             pawn.RotateCounterClockwise();
+        }
+    }
+
+    public void OnDestroy()
+    {
+        // If we have a GameManager
+        if (GameManager.instance != null)
+        {
+            // And it has a player(s) list
+            if (GameManager.instance.playersList != null)
+            {
+                // Unregister with the list
+                GameManager.instance.playersList.Remove(this);
+            }
         }
     }
 }
