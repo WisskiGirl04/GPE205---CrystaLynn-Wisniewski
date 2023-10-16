@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public Transform playerSpawnTransform;
 
     // Awake is called when the object is created - before Start even runs
     private void Awake()
@@ -25,6 +26,30 @@ public class GameManager : MonoBehaviour
         
     }
 
+    // Start is called before the first frame update
+    private void Start()
+    {
+        // Temp Code - spawn player as soon as the GameManager starts
+        SpawnPlayer();
+    }
+
+    public void SpawnPlayer()
+    {
+        // Spawn the Player Controller at (0,0,0) with no rotation
+        GameObject playerOne = Instantiate(playerControllerPrefab, Vector3.zero,
+            Quaternion.identity) as GameObject;
+
+        // Spawn our Tank and connect the player's controller
+        GameObject tankOne = Instantiate(tankPawnPrefab, playerSpawnTransform.position,
+            playerSpawnTransform.rotation) as GameObject;
+
+        // Get the Player Controller component and Pawn component
+        Controller controllerOne = playerOne.GetComponent<Controller>();
+        Pawn pawnOne = tankOne.GetComponent<Pawn>();
+
+        // Connect the components
+        controllerOne.pawn = pawnOne;
+    }
 
     // Prefabs
     public GameObject playerControllerPrefab;
