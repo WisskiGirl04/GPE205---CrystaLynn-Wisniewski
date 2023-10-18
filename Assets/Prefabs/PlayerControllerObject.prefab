@@ -49,3 +49,4 @@ MonoBehaviour:
   moveBackwardKey: 115
   rotateClockwiseKey: 97
   rotateCounterClockwiseKey: 100
+  turboKey: 304
