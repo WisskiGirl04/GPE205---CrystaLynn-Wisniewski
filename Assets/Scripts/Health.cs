@@ -41,7 +41,7 @@ public class Health : MonoBehaviour
 
     public void Die (Pawn source)
     {
-        Debug.Log("Uh oh!")
+        Debug.Log("Uh oh!");
         Destroy(gameObject);
     }
 
