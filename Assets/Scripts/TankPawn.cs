@@ -37,4 +37,9 @@ public class TankPawn : Pawn
         mover.Rotate(-turnSpeed);
     }
 
+    public override void Shoot()
+    {
+        shooter.Shoot(bulletPrefab, fireForce, damageDone, bulletLifespan);
+    }
+        
 }

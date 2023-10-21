@@ -1223,6 +1223,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6272908212998407304, guid: 44d0735f0e4151c46a38fc93112a3826, type: 3}
+      propertyPath: fireForce
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6272908212998407304, guid: 44d0735f0e4151c46a38fc93112a3826, type: 3}
+      propertyPath: damageDone
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6272908212998407304, guid: 44d0735f0e4151c46a38fc93112a3826, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 2813200230441028570, guid: b4c0bfca6d9ad6d4a91d336b84d578a6, type: 3}
+    - target: {fileID: 6272908212998407304, guid: 44d0735f0e4151c46a38fc93112a3826, type: 3}
+      propertyPath: bulletLifespan
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1233,6 +1249,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4798114153979411682, guid: 44d0735f0e4151c46a38fc93112a3826, type: 3}
       insertIndex: -1
       addedObject: {fileID: 871377646}
+    - targetCorrespondingSourceObject: {fileID: 4798114153979411682, guid: 44d0735f0e4151c46a38fc93112a3826, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 871377653}
   m_SourcePrefab: {fileID: 100100000, guid: 44d0735f0e4151c46a38fc93112a3826, type: 3}
 --- !u!4 &465141643 stripped
 Transform:
@@ -2476,6 +2495,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 0}
+  firepointTransform: {fileID: 1184824649}
+--- !u!114 &871377653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871377645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc38b945a73559740bf73d47d54ace6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   firepointTransform: {fileID: 1184824649}
 --- !u!1001 &906715887
 PrefabInstance:
@@ -4799,6 +4831,7 @@ GameObject:
   - component: {fileID: 1466181320}
   - component: {fileID: 1466181319}
   - component: {fileID: 1466181318}
+  - component: {fileID: 1466181324}
   m_Layer: 0
   m_Name: Sphere (10)
   m_TagString: Untagged
@@ -4940,6 +4973,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1466181324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1466181317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 571506eac5fc51b489bb8a7ce900da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 10
+  maxHealth: 10
 --- !u!1 &1500761629
 GameObject:
   m_ObjectHideFlags: 0

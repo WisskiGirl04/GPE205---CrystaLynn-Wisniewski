@@ -12,11 +12,22 @@ public abstract class Pawn : MonoBehaviour
     public Mover mover;
     // Variable to hold our turbo speed
     public float turboSpeed;
+    // Variable to hold our Shooter component
+    public Shooter shooter;
+    // Variable for our bullet prefab
+    public GameObject bulletPrefab;
+    // Variable for our firing force
+    public float fireForce;
+    // Variable for our damage done
+    public float damageDone;
+    //Variable for how long the bullet exists if it doesn't collide
+    public float bulletLifespan;
 
     // Start is called before the first frame update
     public virtual void Start()
     {  
         mover = GetComponent<Mover>();
+        shooter = GetComponent<Shooter>();
     }
 
     // Update is called once per frame
@@ -28,5 +39,6 @@ public abstract class Pawn : MonoBehaviour
     public abstract void MoveBackward();
     public abstract void RotateClockwise();
     public abstract void RotateCounterClockwise();
+    public abstract void Shoot();
 
 }
