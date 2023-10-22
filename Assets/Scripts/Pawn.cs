@@ -22,12 +22,15 @@ public abstract class Pawn : MonoBehaviour
     public float damageDone;
     //Variable for how long the bullet exists if it doesn't collide
     public float bulletLifespan;
+    public int maxShots;
+    public int currentShots;
 
     // Start is called before the first frame update
     public virtual void Start()
     {  
         mover = GetComponent<Mover>();
         shooter = GetComponent<Shooter>();
+        currentShots = maxShots;
     }
 
     // Update is called once per frame

@@ -14,7 +14,7 @@ public class TankPawn : Pawn
     // Update is called once per frame
     public override void Update()
     {
-        base.Update();
+        shooter.Update(maxShots, currentShots);
     }
 
     public override void MoveForward()
@@ -39,7 +39,7 @@ public class TankPawn : Pawn
 
     public override void Shoot()
     {
-        shooter.Shoot(bulletPrefab, fireForce, damageDone, bulletLifespan);
+        shooter.Shoot(bulletPrefab, fireForce, damageDone, bulletLifespan, maxShots, currentShots);
     }
         
 }
