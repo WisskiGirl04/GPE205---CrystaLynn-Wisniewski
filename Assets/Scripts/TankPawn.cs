@@ -38,7 +38,7 @@ public class TankPawn : Pawn
 
     public override void Shoot()
     {
-        shooter.Shoot(bulletPrefab, fireForce, damageDone, bulletLifespan);
+        shooter.Shoot(bulletPrefab, fireForce, damageDone, bulletLifespan, fireRate);
     }
         
 }
