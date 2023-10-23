@@ -17,6 +17,8 @@ public abstract class Controller : MonoBehaviour
     {
     }
 
-    // Our child classes must override the way the process input
-    public abstract void ProcessInputs();
+    // Our child classes used to have to override the way the process input
+    public virtual void ProcessInputs()
+    {
+    }
 }
