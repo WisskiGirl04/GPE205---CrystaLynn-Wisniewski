@@ -16,21 +16,12 @@ public class TankShooter : Shooter
     }
 
     // Update is called once per frame
-    public override void Update(int maxShots, int currentShots)
+    public override void Update()
     {
-        timeUntilNextEvent -= Time.deltaTime;
-        if (timeUntilNextEvent <= 0 && currentShots < maxShots)
-        {
-            Debug.Log("Reloading!");
-            currentShots++;
-            timeUntilNextEvent = timerDelay;
-        }
     }
 
-    public override void Shoot(GameObject bulletPrefab, float fireForce, float damageDone, float lifespan, int maxShots, int currentShots)
+    public override void Shoot(GameObject bulletPrefab, float fireForce, float damageDone, float lifespan)
     {
-        if (currentShots < 0)
-        {
             // Instantiate the new bullet
             GameObject newBullet = Instantiate(bulletPrefab, firepointTransform.position, firepointTransform.rotation) as GameObject;
             // Get the DamageOnHit component from the new bullet
@@ -53,7 +44,5 @@ public class TankShooter : Shooter
             }
             // Destroy it after a set time
             Destroy(newBullet, lifespan);
-            currentShots--;
-        }
     }
 }
