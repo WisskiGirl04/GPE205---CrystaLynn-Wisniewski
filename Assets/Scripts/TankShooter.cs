@@ -5,14 +5,12 @@ using UnityEngine;
 public class TankShooter : Shooter
 {
     public Transform firepointTransform;
-    public float timerDelay = 1.0f;
-    public float timeUntilNextEvent;
-    public int currentShots;
+    private float nextTimeCanShoot;
 
     // Start is called before the first frame update
     public override void Start()
     {
-        timeUntilNextEvent = timerDelay;
+        nextTimeCanShoot = Time.time;
     }
 
     // Update is called once per frame
@@ -20,8 +18,17 @@ public class TankShooter : Shooter
     {
     }
 
-    public override void Shoot(GameObject bulletPrefab, float fireForce, float damageDone, float lifespan)
+    public override void Shoot(GameObject bulletPrefab, float fireForce, float damageDone, float lifespan, float fireRate)
     {
+        float secondsPerShot;
+        float shotsPerSecond;
+
+        shotsPerSecond = fireRate;
+        secondsPerShot = 1 / shotsPerSecond;
+
+        if (nextTimeCanShoot <= Time.time)
+        {
+            Debug.Log("Shooting time!");
             // Instantiate the new bullet
             GameObject newBullet = Instantiate(bulletPrefab, firepointTransform.position, firepointTransform.rotation) as GameObject;
             // Get the DamageOnHit component from the new bullet
@@ -44,5 +51,7 @@ public class TankShooter : Shooter
             }
             // Destroy it after a set time
             Destroy(newBullet, lifespan);
+            nextTimeCanShoot = Time.time + secondsPerShot;
+        }
     }
 }

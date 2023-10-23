@@ -20,8 +20,10 @@ public abstract class Pawn : MonoBehaviour
     public float fireForce;
     // Variable for our damage done
     public float damageDone;
-    //Variable for how long the bullet exists if it doesn't collide
+    // Variable for how long the bullet exists if it doesn't collide
     public float bulletLifespan;
+    // Variable for rate of fire
+    public float fireRate;
 
     // Start is called before the first frame update
     public virtual void Start()

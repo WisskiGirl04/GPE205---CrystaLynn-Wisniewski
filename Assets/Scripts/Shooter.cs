@@ -12,5 +12,5 @@ public abstract class Shooter : MonoBehaviour
     {
     }
 
-    public abstract void Shoot(GameObject bulletPrefab, float fireForce, float damageDone, float lifespan);
+    public abstract void Shoot(GameObject bulletPrefab, float fireForce, float damageDone, float lifespan, float fireRate);
 }
