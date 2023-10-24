@@ -23,6 +23,7 @@ public class DamageOnHit : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        Destroy(gameObject);
         // Get the Health component from the object that we are hitting and damaging
         Health otherHealth = other.gameObject.GetComponent<Health>();
         // Only do damage if the other object has health
@@ -33,7 +34,7 @@ public class DamageOnHit : MonoBehaviour
         }
         // Destroy the object that's supposed to do damage
         // Whether it actually did damage to a Health component or not
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
 }
