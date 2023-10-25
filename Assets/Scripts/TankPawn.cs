@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class TankPawn : Pawn
 {
@@ -40,5 +41,14 @@ public class TankPawn : Pawn
     {
         shooter.Shoot(bulletPrefab, fireForce, damageDone, bulletLifespan, fireRate);
     }
-        
+
+    public override void RotateTowards(Vector3 targetPosition)
+    {
+        // Find the vector to our target
+        Vector3 vectorToTarget = targetPosition - transform.position;
+        // Find the rotation to look at the target down the vector
+        Quaternion targetRotation = Quaternion.LookRotation(vectorToTarget, Vector3.up);
+        // Rotate closer to that vector, but rotate by turnSpeed per Frame
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+    }
 }
