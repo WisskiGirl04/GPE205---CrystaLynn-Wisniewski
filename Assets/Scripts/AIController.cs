@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AIController : Controller
 {
-    public enum AIState { Idle, Seek, Flee, StateFour };
+    public enum AIState { Idle, Seek, Flee, TargetPlayerOne };
     public AIState currentState;
     private float lastStateChangeTime;
     public GameObject target;
@@ -38,28 +38,43 @@ public class AIController : Controller
                 // Do work
                 DoIdleState();
                 // Check for transitions
-                if(IsDistanceLessThan(target, 10))
+                if (IsHasTarget() && IsDistanceLessThan(target, 10))
                 {
                     ChangeState(AIState.Seek);
+                }
+                else
+                {
+                    ChangeState(AIState.TargetPlayerOne);
                 }
                 break;
             case AIState.Seek:
                 // Do work
                 DoAttackState();
                 // Check for transitions
-                if(!IsDistanceLessThan(target, 10))
+                if (IsHasTarget() && IsDistanceLessThan(target, 10))
                 {
                     ChangeState(AIState.Idle);
+                }
+                else
+                {
+                    ChangeState(AIState.TargetPlayerOne);
                 }
                 break;
             case AIState.Flee:
                 // Do work
                 DoFleeState();
                 // Check for transition
-                if(!IsDistanceLessThan(target, 10))
+                if (IsHasTarget() && IsDistanceLessThan(target, 10))
                 {
                     ChangeState(AIState.Idle);
                 }
+                else
+                {
+                    ChangeState(AIState.TargetPlayerOne);
+                }
+                break;
+            case AIState.TargetPlayerOne:
+                DoChooseTargetState();
                 break;
         }
     }
@@ -190,4 +205,31 @@ public class AIController : Controller
         pawn.Shoot();
     }
 
+    public void TargetPlayerOne()
+    {
+        // If the GameManager exists
+        if (GameManager.instance != null)
+        {
+            // And the array of players exists
+            if (GameManager.instance.playersList != null)
+            {
+                // And there are players in it
+                if (GameManager.instance.playersList.Count > 0)
+                {
+                    //Then target the gameObject of the pawn of the first player controller in the list
+                    target = GameManager.instance.playersList[0].pawn.gameObject;
+                }
+            }
+        }
+    }
+    protected virtual void DoChooseTargetState()
+    {
+        // Do work
+        TargetPlayerOne();
+    }
+    protected bool IsHasTarget()
+    {
+        // return true if we have a target, false if we don't
+        return (target != null);
+    }
 }
