@@ -10,6 +10,9 @@ public class AIController : Controller
     private float lastStateChangeTime;
     public GameObject target;
     public float fleeDistance;
+    public Transform[] patrolPoints;
+    public float patrolPointStopDistance;
+    private int currentPatrolPoint = 0;
 
     // Start is called before the first frame update
     public override void Start()
@@ -136,12 +139,37 @@ public class AIController : Controller
         Flee();
     }
 
+    protected virtual void Patrol()
+    {
+        // If we have enough patrol points in our list to move to a current patrol point
+        if(patrolPoints.Length > currentPatrolPoint)
+        {
+            // Seek the patrol point
+            Seek(patrolPoints[currentPatrolPoint]);
+            // If we are close enough, increment to the next patrol point
+            if(Vector3.Distance(pawn.transform.position, patrolPoints[currentPatrolPoint].position) < patrolPointStopDistance)
+            {
+                currentPatrolPoint++;
+            }
+            else
+            {
+                RestartPatrol();
+            }
+        }
+    }
+    protected void RestartPatrol()
+    {
+        // Set the index back to 0
+        currentPatrolPoint = 0;
+    }
+
     public virtual void ChangeState (AIState newState)
     {
         // Change the current state
         currentState = newState;
         // Save the time we changed states
-        lastStateChangeTime = Time.time;    
+        lastStateChangeTime = Time.time;
+        Debug.Log(lastStateChangeTime);
     }
 
     protected bool IsDistanceLessThan(GameObject target, float distance)
