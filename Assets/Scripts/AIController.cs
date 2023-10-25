@@ -41,7 +41,7 @@ public class AIController : Controller
                 break;
             case AIState.Seek:
                 // Do work
-                DoSeekState();
+                DoAttackState();
                 // Check for transitions
                 if(!IsDistanceLessThan(target, 10))
                 {
@@ -93,9 +93,12 @@ public class AIController : Controller
         Seek(targetPawn.transform);
         pawn.MoveForward();
     }
-    protected virtual void DoSeekState()
+    protected virtual void DoAttackState()
     {
+        // Chase
         Seek(target);
+        // Shoot
+        Shoot();
     }
 
     public virtual void ChangeState (AIState newState)
@@ -117,4 +120,11 @@ public class AIController : Controller
             return false;
         }
     }
+
+    public void Shoot()
+    {
+        // Tell the pawn to shoot
+        pawn.Shoot();
+    }
+
 }
