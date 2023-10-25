@@ -24,38 +24,41 @@ public class AIController : Controller
         MakeDecisions();
         // Run the parents update
         // base.Update();  
-        switch (currentState)
-        {
-            case AIState.Idle:
-                // Do work for StateOne
-                // Check for transitions
-                break;
-            case AIState.Seek:
-                // Do work for Seek
-                DoSeekState();
-                // Check for transitions
-                break;
-            case AIState.StateThree:
-                // Do work for StateOne
-                // Check for transitions
-                break;
-        }
     }
 
     public void MakeDecisions()
     {
-        Debug.Log("Make Decisions");
+        switch (currentState)
+        {
+            case AIState.Idle:
+                // Do work
+                DoIdleState();
+                // Check for transitions
+                if(IsDistanceLessThan(target, 10))
+                {
+                    ChangeState(AIState.Seek);
+                }
+                break;
+            case AIState.Seek:
+                // Do work
+                DoSeekState();
+                // Check for transitions
+                if(!IsDistanceLessThan(target, 10))
+                {
+                    ChangeState(AIState.Idle);
+                }
+                break;
+        }
     }
 
     public void Idle()
     {
         // Do nothing
     }
-    protected void DoIdleState()
+    protected virtual void DoIdleState()
     {
         // Do nothing
     }
-
 
     // Previously had public void Seek(Vector3 targetPosition)
     public void Seek(GameObject target)
@@ -65,23 +68,34 @@ public class AIController : Controller
         // Move Forward
         pawn.MoveForward();
     }
-    public void DoSeekState()
+    public void Seek(Controller targetController)
     {
-        // Seek our target
-        Seek(target);
+        // RotateTowards the Function
+        pawn.RotateTowards(targetController.transform.position);
+        pawn.MoveForward();
     }
-
-
-    protected bool IsDistanceLessThan(GameObject target, float distance)
+    public void Seek(Vector3 targetPosition)
     {
-        if(Vector3.Distance (pawn.transform.position, target.transform.position) < distance)
-        {
-                return true;
-        }
-        else
-        {
-            return false;
-        }
+        // RotateTowards the Funciton
+        pawn.RotateTowards(targetPosition);
+        // Move Forward
+        pawn.MoveForward();
+    }
+    public void Seek(Transform targetTransform)
+    {
+        // Seek the position of our target Transform
+        Seek(targetTransform.position);
+        pawn.MoveForward();
+    }
+    public void Seek(Pawn targetPawn)
+    {
+        // Seek the pawn's transform!
+        Seek(targetPawn.transform);
+        pawn.MoveForward();
+    }
+    protected virtual void DoSeekState()
+    {
+        Seek(target);
     }
 
     public virtual void ChangeState (AIState newState)
@@ -92,4 +106,15 @@ public class AIController : Controller
         lastStateChangeTime = Time.time;    
     }
 
+    protected bool IsDistanceLessThan(GameObject target, float distance)
+    {
+        if(Vector3.Distance (pawn.transform.position, target.transform.position) < distance)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
