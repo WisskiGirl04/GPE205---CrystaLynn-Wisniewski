@@ -38,7 +38,7 @@ public class AIController : Controller
                 // Do work
                 DoIdleState();
                 // Check for transitions
-                if (IsHasTarget() && IsDistanceLessThan(target, 10))
+                if (!IsHasTarget() && IsDistanceLessThan(target, 10))
                 {
                     ChangeState(AIState.Seek);
                 }
@@ -66,7 +66,7 @@ public class AIController : Controller
                 // Check for transition
                 if (IsHasTarget() && IsDistanceLessThan(target, 10))
                 {
-                    ChangeState(AIState.Idle);
+                    //ChangeState(AIState.Idle);
                 }
                 else
                 {
@@ -75,6 +75,7 @@ public class AIController : Controller
                 break;
             case AIState.TargetPlayerOne:
                 DoChooseTargetState();
+                ChangeState(AIState.Seek);
                 break;
         }
     }
