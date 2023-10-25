@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class AIController : Controller
 {
-    public enum AIState { Idle, Seek, StateThree, StateFour };
+    public enum AIState { Idle, Seek, Flee, StateFour };
     public AIState currentState;
     private float lastStateChangeTime;
     public GameObject target;
+    public float fleeDistance;
 
     // Start is called before the first frame update
     public override void Start()
@@ -48,6 +49,15 @@ public class AIController : Controller
                     ChangeState(AIState.Idle);
                 }
                 break;
+            case AIState.Flee:
+                // Do work
+                DoFleeState();
+                // Check for transition
+                if(!IsDistanceLessThan(target, 10))
+                {
+                    ChangeState(AIState.Idle);
+                }
+                break;
         }
     }
 
@@ -71,12 +81,11 @@ public class AIController : Controller
     public void Seek(Controller targetController)
     {
         // RotateTowards the Function
-        pawn.RotateTowards(targetController.transform.position);
-        pawn.MoveForward();
+        Seek(targetController.transform.position);
     }
     public void Seek(Vector3 targetPosition)
     {
-        // RotateTowards the Funciton
+        // RotateTowards the Function
         pawn.RotateTowards(targetPosition);
         // Move Forward
         pawn.MoveForward();
@@ -85,13 +94,11 @@ public class AIController : Controller
     {
         // Seek the position of our target Transform
         Seek(targetTransform.position);
-        pawn.MoveForward();
     }
     public void Seek(Pawn targetPawn)
     {
         // Seek the pawn's transform!
         Seek(targetPawn.transform);
-        pawn.MoveForward();
     }
     protected virtual void DoAttackState()
     {
@@ -99,6 +106,34 @@ public class AIController : Controller
         Seek(target);
         // Shoot
         Shoot();
+    }
+
+    protected virtual void Flee()
+    {
+        // Find the Vector to our target
+        Vector3 vectorToTarget = target.transform.position - pawn.transform.position;
+        // Find the Vector away from our target by multiplying by -1
+        Vector3 vectorAwayFromTarget = -vectorToTarget;
+        // Find the vector we would travel down in order to flee
+        Vector3 fleeVector = vectorAwayFromTarget.normalized * fleeDistance;
+        // Seek the point that is "fleeVector" away from our current position
+        Seek(pawn.transform.position + fleeVector);
+        // Find distance the target is from player
+        float targetDistance = Vector3.Distance(target.transform.position, pawn.transform.position);
+        // Find the percentage of our FleeDistance that the target is away from our AI
+        float percentOfFleeDistance = targetDistance / fleeDistance;
+        // Clamp so we don't flee "backwards" and don't flee too far
+        percentOfFleeDistance = Mathf.Clamp01(percentOfFleeDistance);
+        // Reverse percentage so AI flees farther the closer it is to player
+        float flippedPercentOfFleeDistance = 1 - percentOfFleeDistance;
+        // Rotate towards target distance??
+        //pawn.RotateTowards()
+        // Move forward???
+    }
+    protected virtual void DoFleeState()
+    {
+        // Flee
+        Flee();
     }
 
     public virtual void ChangeState (AIState newState)
