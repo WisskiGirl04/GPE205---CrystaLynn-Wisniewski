@@ -78,6 +78,10 @@ public class AIController : Controller
                 // Do work
                 DoAttackState();
                 break;
+            case AIState.Patrol:
+                // Do work
+                DoPatrolState();
+                break;
             case AIState.TargetPlayerOne:
                 DoChooseTargetState();
                 ChangeState(AIState.Seek);
@@ -172,7 +176,7 @@ public class AIController : Controller
             // Then seek that waypoint
             Seek(patrolPoints[currentPatrolPoint]);
             // If we are close enough, then increment to next waypoint
-            if (Vector3.Distance(pawn.transform.position, patrolPoints[currentPatrolPoint].position) <= patrolPointStopDistance)
+            if (Vector3.Distance(pawn.transform.position, patrolPoints[currentPatrolPoint].position) < patrolPointStopDistance)
             {
                 currentPatrolPoint++;
             }
