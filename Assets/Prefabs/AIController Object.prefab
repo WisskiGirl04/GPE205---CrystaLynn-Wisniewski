@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 3855442221475741657}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4.64, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,5 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pawn: {fileID: 3721372764380536290, guid: 5fac3a28bc6d18147a74f2c5f10d0f9f, type: 3}
-  currentState: 1
+  currentState: 4
   target: {fileID: 0}
+  fleeDistance: 2
+  patrolPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  patrolPointStopDistance: 0
+  loopPatrol: 0

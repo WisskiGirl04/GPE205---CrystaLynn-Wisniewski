@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AIController : Controller
 {
-    public enum AIState { Idle, Seek, Flee, TargetPlayerOne };
+    public enum AIState { Idle, Seek, Flee, TargetPlayerOne, Patrol, Attack};
     public AIState currentState;
     private float lastStateChangeTime;
     public GameObject target;
@@ -13,6 +13,7 @@ public class AIController : Controller
     public Transform[] patrolPoints;
     public float patrolPointStopDistance;
     private int currentPatrolPoint = 0;
+    public bool loopPatrol;
 
     // Start is called before the first frame update
     public override void Start()
@@ -73,6 +74,10 @@ public class AIController : Controller
                     ChangeState(AIState.TargetPlayerOne);
                 }
                 break;
+                case AIState.Attack:
+                // Do work
+                DoAttackState();
+                break;
             case AIState.TargetPlayerOne:
                 DoChooseTargetState();
                 ChangeState(AIState.Seek);
@@ -119,6 +124,13 @@ public class AIController : Controller
         // Seek the pawn's transform!
         Seek(targetPawn.transform);
     }
+
+    protected virtual void DoSeekState()
+    {
+        //Seek the target
+        Seek(target);
+    }
+
     protected virtual void DoAttackState()
     {
         // Chase
@@ -145,9 +157,6 @@ public class AIController : Controller
         percentOfFleeDistance = Mathf.Clamp01(percentOfFleeDistance);
         // Reverse percentage so AI flees farther the closer it is to player
         float flippedPercentOfFleeDistance = 1 - percentOfFleeDistance;
-        // Rotate towards target distance??
-        //pawn.RotateTowards()
-        // Move forward???
     }
     protected virtual void DoFleeState()
     {
@@ -157,22 +166,29 @@ public class AIController : Controller
 
     protected virtual void Patrol()
     {
-        // If we have enough patrol points in our list to move to a current patrol point
-        if(patrolPoints.Length > currentPatrolPoint)
+        // If we have a enough waypoints in our list to move to a current waypoint
+        if (patrolPoints.Length > currentPatrolPoint)
         {
-            // Seek the patrol point
+            // Then seek that waypoint
             Seek(patrolPoints[currentPatrolPoint]);
-            // If we are close enough, increment to the next patrol point
-            if(Vector3.Distance(pawn.transform.position, patrolPoints[currentPatrolPoint].position) < patrolPointStopDistance)
+            // If we are close enough, then increment to next waypoint
+            if (Vector3.Distance(pawn.transform.position, patrolPoints[currentPatrolPoint].position) <= patrolPointStopDistance)
             {
                 currentPatrolPoint++;
             }
-            else
-            {
-                RestartPatrol();
-            }
+        }
+        else
+        {
+            RestartPatrol();
         }
     }
+
+    protected virtual void DoPatrolState()
+    {
+        //Start Patrols
+        Patrol();
+    }
+
     protected void RestartPatrol()
     {
         // Set the index back to 0
