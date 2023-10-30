@@ -1069,6 +1069,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UATank Enemy AI
       objectReference: {fileID: 0}
+    - target: {fileID: 2552210280111281529, guid: 5fac3a28bc6d18147a74f2c5f10d0f9f, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 5626775941048923088, guid: 5fac3a28bc6d18147a74f2c5f10d0f9f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.26
@@ -4563,7 +4567,7 @@ MonoBehaviour:
   - {fileID: 747215159}
   - {fileID: 1063952141}
   patrolPointStopDistance: 1
-  loopPatrol: 0
+  loopPatrol: 1
 --- !u!1001 &1548028300
 PrefabInstance:
   m_ObjectHideFlags: 0

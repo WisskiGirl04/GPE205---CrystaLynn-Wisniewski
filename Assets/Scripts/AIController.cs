@@ -181,7 +181,7 @@ public class AIController : Controller
                 currentPatrolPoint++;
             }
         }
-        else
+        else if(loopPatrol == true)
         {
             RestartPatrol();
         }
