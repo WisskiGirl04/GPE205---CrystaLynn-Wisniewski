@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AIController : Controller
 {
-    public enum AIState { Idle, Seek, Flee, TargetPlayerOne, Patrol, Attack};
+    public enum AIState { Idle, Seek, Flee, TargetPlayerOne, Patrol, Attack, TargetClosestPawn, SeekClosestPawn};
     public AIState currentState;
     private float lastStateChangeTime;
     public GameObject target;
@@ -14,6 +14,15 @@ public class AIController : Controller
     public float patrolPointStopDistance;
     private int currentPatrolPoint = 0;
     public bool loopPatrol;
+    public Pawn targetPawn;
+
+
+    // Get a list of all the tanks (pawns)
+    public Pawn[] allTanks;
+
+    public Pawn closestTank;
+    public float closestTankDistance;
+
 
     // Start is called before the first frame update
     public override void Start()
@@ -61,7 +70,7 @@ public class AIController : Controller
                     ChangeState(AIState.TargetPlayerOne);
                 }
                 break;
-            case AIState.Flee:
+/*            case AIState.Flee:
                 // Do work
                 DoFleeState();
                 // Check for transition
@@ -73,6 +82,10 @@ public class AIController : Controller
                 {
                     ChangeState(AIState.TargetPlayerOne);
                 }
+                break;*/
+            case AIState.SeekClosestPawn:
+                // Do Work
+                DoPawnSeekState();
                 break;
                 case AIState.Attack:
                 // Do work
@@ -85,6 +98,10 @@ public class AIController : Controller
             case AIState.TargetPlayerOne:
                 DoChooseTargetState();
                 ChangeState(AIState.Seek);
+                break;
+            case AIState.TargetClosestPawn:
+                DoTargetClosest();
+                ChangeState(AIState.SeekClosestPawn);
                 break;
         }
     }
@@ -106,11 +123,7 @@ public class AIController : Controller
         // Move Forward
         pawn.MoveForward();
     }
-    public void Seek(Controller targetController)
-    {
-        // RotateTowards the Function
-        Seek(targetController.transform.position);
-    }
+
     public void Seek(Vector3 targetPosition)
     {
         // RotateTowards the Function
@@ -118,15 +131,25 @@ public class AIController : Controller
         // Move Forward
         pawn.MoveForward();
     }
+
     public void Seek(Transform targetTransform)
     {
         // Seek the position of our target Transform
         Seek(targetTransform.position);
     }
-    public void Seek(Pawn targetPawn)
+
+    public void Seek(Pawn closestTank)
     {
         // Seek the pawn's transform!
-        Seek(targetPawn.transform);
+        // Seek(targetPawn.transform);
+        pawn.RotateTowards(closestTank.transform.position);
+        pawn.MoveForward();
+        
+    }
+
+    protected virtual void DoPawnSeekState()
+    {
+        Seek(targetPawn);
     }
 
     protected virtual void DoSeekState()
@@ -143,7 +166,7 @@ public class AIController : Controller
         Shoot();
     }
 
-    protected virtual void Flee()
+/*    protected virtual void Flee()
     {
         // Find the Vector to our target
         Vector3 vectorToTarget = target.transform.position - pawn.transform.position;
@@ -166,7 +189,7 @@ public class AIController : Controller
     {
         // Flee
         Flee();
-    }
+    }*/
 
     protected virtual void Patrol()
     {
@@ -253,4 +276,58 @@ public class AIController : Controller
         // return true if we have a target, false if we don't
         return (target != null);
     }
+
+    protected void TargetNearestTank()
+    {
+       // Get a list of all the tanks (pawns)
+        Pawn[] allTanks = FindObjectsOfType<Pawn>();
+
+        // Assume that the first tank is closest
+        Pawn closestTank = allTanks[0];
+        float closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+
+        // Iterate through them one at a time
+        foreach (Pawn tank in allTanks)
+        {
+            // If this one is closer than the closest
+            // (remember we assume the first tank in the list is the closest at first)
+            if (Vector3.Distance(pawn.transform.position, tank.transform.position) <= closestTankDistance)
+            {
+                // It is the closest
+                closestTank = tank;
+                closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+            }
+        }
+
+        // Target the closest tank
+        target = closestTank.gameObject;
+    }
+
+    protected virtual void DoTargetClosest()
+    {
+        // Do Work
+        TargetNearestTank();
+    }
+
 }
+
+
+// Other Seek Ideas.. Incomplete
+/*    public void Seek(Controller targetController)
+    {
+        // RotateTowards the Function
+        Seek(targetController.transform.position);
+    }
+    public void Seek(Vector3 targetPosition)
+    {
+        // RotateTowards the Function
+        pawn.RotateTowards(targetPosition);
+        // Move Forward
+        pawn.MoveForward();
+    }
+    public void Seek(Transform targetTransform)
+    {
+        // Seek the position of our target Transform
+        Seek(targetTransform.position);
+    } */
+
