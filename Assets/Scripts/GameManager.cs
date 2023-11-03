@@ -50,6 +50,11 @@ public class GameManager : MonoBehaviour
         Controller controllerOne = playerOne.GetComponent<Controller>();
         Pawn pawnOne = tankOne.GetComponent<Pawn>();
 
+        // Should rename the playerOne variable
+        tankOne.AddComponent<NoiseMaker>();
+        pawnOne.noise = tankOne.GetComponent<NoiseMaker>();
+        pawnOne.noiseMakerVolume = 3;
+
         // Connect the components
         controllerOne.pawn = pawnOne;
     }

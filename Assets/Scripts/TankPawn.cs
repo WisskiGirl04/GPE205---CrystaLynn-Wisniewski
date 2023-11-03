@@ -51,4 +51,21 @@ public class TankPawn : Pawn
         // Rotate closer to that vector, but rotate by turnSpeed per Frame
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
     }
+
+    public override void MakeNoise()
+    {
+        if(noise != null)
+        {
+            noise.volumeDistance = noiseMakerVolume;
+        }
+    }
+
+    public override void StopNoise()
+    {
+        if(noise != null)
+        {
+            noise.volumeDistance = 0;
+        }
+    }
+
 }

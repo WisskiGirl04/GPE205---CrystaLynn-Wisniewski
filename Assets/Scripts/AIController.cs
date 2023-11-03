@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -15,6 +16,7 @@ public class AIController : Controller
     private int currentPatrolPoint = 0;
     public bool loopPatrol;
     public Pawn targetPawn;
+    public float hearingDistance;
 
 
     // Get a list of all the tanks (pawns)
@@ -37,7 +39,7 @@ public class AIController : Controller
         // Make Decisions
         MakeDecisions();
         // Run the parents update
-        // base.Update();  
+         base.Update();  
     }
 
     public void MakeDecisions()
@@ -138,11 +140,11 @@ public class AIController : Controller
         Seek(targetTransform.position);
     }
 
-    public void Seek(Pawn closestTank)
+    public void Seek(Pawn target)
     {
         // Seek the pawn's transform!
         // Seek(targetPawn.transform);
-        pawn.RotateTowards(closestTank.transform.position);
+        pawn.RotateTowards(target.transform.position);
         pawn.MoveForward();
         
     }
@@ -308,6 +310,57 @@ public class AIController : Controller
         // Do Work
         TargetNearestTank();
     }
+
+    public bool CanHear(GameObject target)
+    {
+        // Get the target's NoiseMaker
+        NoiseMaker noiseMaker = target.GetComponent<NoiseMaker>();
+        // If they don't have one, they can't make noise, so return false
+        if (noiseMaker == null)
+        {
+            return false;
+        }
+        // If they are making 0 noise, they also can't be heard
+        if (noiseMaker.volumeDistance <= 0)
+        {
+            return false;
+        }
+        // If they are making noise, add the volumeDistance in the noisemaker to the hearingDistance of this AI
+        float totalDistance = noiseMaker.volumeDistance + hearingDistance;
+        // If the distance between our pawn and target is closer than this...
+        if (Vector3.Distance(pawn.transform.position, target.transform.position) <= totalDistance)
+        {
+            // ... then we can hear the target
+            return true;
+        }
+        else
+        {
+            // Otherwise, we are too far away to hear them
+            return false;
+        }
+
+         bool CanSee(GameObject target)
+        {
+            // Find the vector from the agent to the target
+            Vector3 agentToTargetVector = target.transform.position - pawn.transform.position;
+            // Find the angle between the direction our agent is facing (forward in local space) and the vector to the target.
+            float angleToTarget = Vector3.Angle(agentToTargetVector, pawn.transform.forward);
+            // if that angle is less than our field of view
+            if (angleToTarget < fieldOfView)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+    }
+
+
+
 
 }
 

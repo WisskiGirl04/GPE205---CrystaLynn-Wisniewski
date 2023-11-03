@@ -24,12 +24,16 @@ public abstract class Pawn : MonoBehaviour
     public float bulletLifespan;
     // Variable for rate of fire
     public float fireRate;
+    // Variable to hold NoiseMaker component
+    public NoiseMaker noise;
+    public float noiseMakerVolume;
 
     // Start is called before the first frame update
     public virtual void Start()
     {  
         mover = GetComponent<Mover>();
         shooter = GetComponent<Shooter>();
+        noise = GetComponent<NoiseMaker>();
     }
 
     // Update is called once per frame
@@ -43,5 +47,7 @@ public abstract class Pawn : MonoBehaviour
     public abstract void RotateCounterClockwise();
     public abstract void Shoot();
     public abstract void RotateTowards(Vector3 targetPosition);
+    public abstract void MakeNoise();
+    public abstract void StopNoise();
 
 }
