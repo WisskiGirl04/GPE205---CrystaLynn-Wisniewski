@@ -144,6 +144,8 @@ MonoBehaviour:
   damageDone: 2
   bulletLifespan: 1.5
   fireRate: 0.3
+  noise: {fileID: 0}
+  noiseMakerVolume: 8
 --- !u!54 &7796654521693579037
 Rigidbody:
   m_ObjectHideFlags: 0

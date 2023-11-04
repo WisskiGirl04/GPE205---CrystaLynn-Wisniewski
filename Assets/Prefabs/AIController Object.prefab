@@ -53,5 +53,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  patrolPointStopDistance: 0
+  patrolPointStopDistance: 1
   loopPatrol: 0
+  targetPawn: {fileID: 0}
+  hearingDistance: 5
+  fieldOfView: 8
+  allTanks: []
+  closestTank: {fileID: 0}
+  closestTankDistance: 0

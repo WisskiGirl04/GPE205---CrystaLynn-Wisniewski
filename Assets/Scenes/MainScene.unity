@@ -3609,6 +3609,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3227516680066623333, guid: 5b77283bcdae0b847a796ab255ec10c9, type: 3}
+      propertyPath: fieldOfView
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227516680066623333, guid: 5b77283bcdae0b847a796ab255ec10c9, type: 3}
+      propertyPath: hearingDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227516680066623333, guid: 5b77283bcdae0b847a796ab255ec10c9, type: 3}
       propertyPath: patrolPointStopDistance
       value: 1
       objectReference: {fileID: 0}
@@ -4654,6 +4662,8 @@ MonoBehaviour:
   patrolPointStopDistance: 1
   loopPatrol: 1
   targetPawn: {fileID: 0}
+  hearingDistance: 5
+  fieldOfView: 80
   allTanks: []
   closestTank: {fileID: 0}
   closestTankDistance: 0
@@ -5300,6 +5310,10 @@ PrefabInstance:
     - target: {fileID: 6465694127464498266, guid: 95e4fd3e40308ad41bda35c0f0397590, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781605458061406190, guid: 95e4fd3e40308ad41bda35c0f0397590, type: 3}
+      propertyPath: noiseMakerVolume
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

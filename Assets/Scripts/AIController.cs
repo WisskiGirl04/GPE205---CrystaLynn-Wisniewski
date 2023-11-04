@@ -17,6 +17,7 @@ public class AIController : Controller
     public bool loopPatrol;
     public Pawn targetPawn;
     public float hearingDistance;
+    public float fieldOfView;
 
 
     // Get a list of all the tanks (pawns)
@@ -50,14 +51,18 @@ public class AIController : Controller
                 // Do work
                 DoIdleState();
                 // Check for transitions
-                if (!IsHasTarget() && IsDistanceLessThan(target, 10))
+                if (IsCanSee(target))
+                {
+                    ChangeState(AIState.Seek);
+                }
+                /*if (!IsHasTarget() && IsDistanceLessThan(target, 10))
                 {
                     ChangeState(AIState.Seek);
                 }
                 else
                 {
                     ChangeState(AIState.TargetPlayerOne);
-                }
+                }*/
                 break;
             case AIState.Seek:
                 // Do work
@@ -79,10 +84,12 @@ public class AIController : Controller
                 if (IsHasTarget() && IsDistanceLessThan(target, 10))
                 {
                     //ChangeState(AIState.Idle);
+                    ChangeState(AIState.Patrol);
                 }
                 else
                 {
-                    ChangeState(AIState.TargetPlayerOne);
+                    //ChangeState(AIState.TargetPlayerOne);
+                    ChangeState(AIState.Idle);
                 }
                 break;*/
             case AIState.SeekClosestPawn:
@@ -105,6 +112,10 @@ public class AIController : Controller
                 DoTargetClosest();
                 ChangeState(AIState.SeekClosestPawn);
                 break;
+
+
+                //IsCanSee(target)
+                //IsCanHear(target)
         }
     }
 
@@ -291,6 +302,8 @@ public class AIController : Controller
         // Iterate through them one at a time
         foreach (Pawn tank in allTanks)
         {
+            Debug.Log("tank added - ");
+            Debug.Log(tank);
             // If this one is closer than the closest
             // (remember we assume the first tank in the list is the closest at first)
             if (Vector3.Distance(pawn.transform.position, tank.transform.position) <= closestTankDistance)
@@ -303,6 +316,7 @@ public class AIController : Controller
 
         // Target the closest tank
         target = closestTank.gameObject;
+        Debug.Log(target);
     }
 
     protected virtual void DoTargetClosest()
@@ -311,7 +325,7 @@ public class AIController : Controller
         TargetNearestTank();
     }
 
-    public bool CanHear(GameObject target)
+    public bool IsCanHear(GameObject target)
     {
         // Get the target's NoiseMaker
         NoiseMaker noiseMaker = target.GetComponent<NoiseMaker>();
@@ -338,31 +352,30 @@ public class AIController : Controller
             // Otherwise, we are too far away to hear them
             return false;
         }
+    }
 
-         bool CanSee(GameObject target)
+    public bool IsCanSee(GameObject target)
+    {
+        // Find the vector from the agent to the target
+        Vector3 agentToTargetVector = target.transform.position - pawn.transform.position;
+        // Find the angle between the direction our agent is facing (forward in local space) and the vector to the target.
+        float angleToTarget = Vector3.Angle(agentToTargetVector, pawn.transform.forward);
+        Debug.Log(angleToTarget);
+        // if that angle is less than our field of view
+        if (angleToTarget < fieldOfView)
         {
-            // Find the vector from the agent to the target
-            Vector3 agentToTargetVector = target.transform.position - pawn.transform.position;
-            // Find the angle between the direction our agent is facing (forward in local space) and the vector to the target.
-            float angleToTarget = Vector3.Angle(agentToTargetVector, pawn.transform.forward);
-            // if that angle is less than our field of view
-            if (angleToTarget < fieldOfView)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            Debug.Log("In field of view!");
+            return true;
         }
-
-
+        else
+        {
+            return false;
+        }
     }
 
 
-
-
 }
+
 
 
 // Other Seek Ideas.. Incomplete

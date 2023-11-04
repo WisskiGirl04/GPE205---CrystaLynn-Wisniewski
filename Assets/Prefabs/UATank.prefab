@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 7988248464003530288}
   - component: {fileID: 7332976996517977647}
   - component: {fileID: 2733903881659253901}
+  - component: {fileID: 2835446042673872187}
   m_Layer: 0
   m_Name: UATank
   m_TagString: Untagged
@@ -144,7 +145,8 @@ MonoBehaviour:
   damageDone: 2
   bulletLifespan: 1.5
   fireRate: 0.5
-  tankTransform: {fileID: 0}
+  noise: {fileID: 0}
+  noiseMakerVolume: 8
 --- !u!54 &458577228774091794
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -218,3 +220,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firepointTransform: {fileID: 464718823809865906}
+--- !u!114 &2835446042673872187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4798114153979411682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfeecc8e49f25b24bb51131595df5467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeDistance: 8
