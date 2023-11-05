@@ -162,7 +162,7 @@ public class AIController : Controller
 
     protected virtual void DoPawnSeekState()
     {
-        Seek(targetPawn);
+        Seek(target);
     }
 
     protected virtual void DoSeekState()
@@ -241,7 +241,7 @@ public class AIController : Controller
         currentState = newState;
         // Save the time we changed states
         lastStateChangeTime = Time.time;
-        Debug.Log(lastStateChangeTime);
+        //Debug.Log(lastStateChangeTime);
     }
 
     protected bool IsDistanceLessThan(GameObject target, float distance)

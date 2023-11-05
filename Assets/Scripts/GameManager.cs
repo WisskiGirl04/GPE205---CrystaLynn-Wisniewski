@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
         pawnOne.noise = tankOne.GetComponent<NoiseMaker>();
         pawnOne.noiseMakerVolume = 3;
 
+        tankOne.AddComponent<PowerUpManager>();
+
         // Connect the components
         controllerOne.pawn = pawnOne;
     }
