@@ -27,6 +27,7 @@ public class Health : MonoBehaviour
     {
         currentHealth = currentHealth - amount;
         Debug.Log(amount + " damage done to " + gameObject.name + " by " + source.name);
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);   
         if (currentHealth <= 0)
         {
             Die(source);
@@ -37,6 +38,7 @@ public class Health : MonoBehaviour
     {
         currentHealth = currentHealth + amount;
         Debug.Log(amount + " healed for " + gameObject.name + " by " + source.name);
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 
     public void Die (Pawn source)
