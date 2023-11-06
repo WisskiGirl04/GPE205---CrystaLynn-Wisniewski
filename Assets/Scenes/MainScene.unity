@@ -1073,6 +1073,10 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 112
       objectReference: {fileID: 0}
+    - target: {fileID: 3721372764380536290, guid: 5fac3a28bc6d18147a74f2c5f10d0f9f, type: 3}
+      propertyPath: fireRate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5626775941048923088, guid: 5fac3a28bc6d18147a74f2c5f10d0f9f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.26

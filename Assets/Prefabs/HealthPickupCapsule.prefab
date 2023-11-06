@@ -121,4 +121,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerup:
-    healthToAdd: 3
+    duration: 2
+    isPermanent: 0
+    healthToChange: 2

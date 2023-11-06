@@ -233,4 +233,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 8
-  maxHealth: 10
+  maxHealth: 20

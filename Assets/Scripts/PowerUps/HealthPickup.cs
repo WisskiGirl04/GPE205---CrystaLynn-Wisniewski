@@ -29,7 +29,7 @@ public class HealthPickup : MonoBehaviour
             powerupManager.Add(powerup);
 
             // Destroy this pickup
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 
