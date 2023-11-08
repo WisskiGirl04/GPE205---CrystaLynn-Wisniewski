@@ -40,13 +40,13 @@ public class PowerUpManager : MonoBehaviour
     }
     public void DecrementPowerupTimers()
     {
-        //One at a time, for each powerup variable which are the objects in our list, we will do our loop body
+        // One at a time, for each powerup variable which are the objects in our list, we will do our loop body
         foreach(PowerUp powerUp in powerUpsList)
         {
             //  Subtract the time it took to draw the frame from the duration
             powerUp.duration -= Time.deltaTime;
             // If the time is upm remove the powerup
-            if(powerUp.duration <= 0)
+            if (powerUp.duration <= 0)
             {
                 Remove(powerUp);
             }
