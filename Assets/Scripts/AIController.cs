@@ -8,7 +8,7 @@ public class AIController : Controller
 {
     public enum AIState { Idle, Seek, Flee, TargetPlayerOne, Patrol, Attack, TargetClosestPawn, SeekClosestPawn};
     public AIState currentState;
-    private float lastStateChangeTime;
+     private float lastStateChangeTime;
     public GameObject target;
     public float fleeDistance;
     public Transform[] patrolPoints;
