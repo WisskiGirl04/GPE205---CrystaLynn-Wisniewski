@@ -43,6 +43,8 @@ public class Health : MonoBehaviour
 
     public void Die (Pawn source)
     {
+        GameManager.instance.playersAmount--;
+        Debug.Log("Die called, players amount is " + GameManager.instance.playersAmount);
         Debug.Log("Uh oh!");
         Destroy(gameObject);
     }

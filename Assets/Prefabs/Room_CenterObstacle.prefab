@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 7677921221294208634}
   - component: {fileID: 1433416832276011008}
   m_Layer: 0
-  m_Name: PawnSpawner (1)
+  m_Name: PawnSpawner (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -569,6 +569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc6ba511cf73ce40b7f16f4e8198592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextWayPoint: {fileID: 5996505626390325727}
 --- !u!1 &4222739681383985014
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,7 +896,7 @@ GameObject:
   - component: {fileID: 2045645561013893216}
   - component: {fileID: 6722448291138922908}
   m_Layer: 0
-  m_Name: PawnSpawner (3)
+  m_Name: PawnSpawner (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -928,6 +929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc6ba511cf73ce40b7f16f4e8198592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextWayPoint: {fileID: 5354414276988423547}
 --- !u!1 &5271846933384430808
 GameObject:
   m_ObjectHideFlags: 0
@@ -1289,9 +1291,8 @@ Transform:
   - {fileID: 4640806693608681505}
   - {fileID: 1314022012458031525}
   - {fileID: 7677921221294208634}
-  - {fileID: 435346336757652332}
-  - {fileID: 2045645561013893216}
   - {fileID: 6823003949086269688}
+  - {fileID: 2045645561013893216}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4865042197399880229
@@ -1426,7 +1427,7 @@ GameObject:
   - component: {fileID: 1314022012458031525}
   - component: {fileID: 5354414276988423547}
   m_Layer: 0
-  m_Name: PawnSpawner
+  m_Name: PawnSpawner (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1459,6 +1460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc6ba511cf73ce40b7f16f4e8198592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextWayPoint: {fileID: 1433416832276011008}
 --- !u!1 &7506584068341746425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1680,7 +1682,7 @@ GameObject:
   - component: {fileID: 6823003949086269688}
   - component: {fileID: 5996505626390325727}
   m_Layer: 0
-  m_Name: PawnSpawner (4)
+  m_Name: PawnSpawner (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1695,7 +1697,7 @@ Transform:
   m_GameObject: {fileID: 7576321431075898226}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.4, y: 2.3999999, z: -0.4}
+  m_LocalPosition: {x: 19.4, y: 2.3999999, z: -7.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1713,47 +1715,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc6ba511cf73ce40b7f16f4e8198592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &8029717820693445127
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 435346336757652332}
-  - component: {fileID: 6449694402714627478}
-  m_Layer: 0
-  m_Name: PawnSpawner (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &435346336757652332
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8029717820693445127}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15, y: 2.3999999, z: -14}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5892278380963324786}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6449694402714627478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8029717820693445127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fc6ba511cf73ce40b7f16f4e8198592, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  nextWayPoint: {fileID: 6722448291138922908}

@@ -16,7 +16,7 @@ public class HealthPowerup : PowerUp
     {
         // Remove health changes
         Health targetHealth = target.GetComponent<Health>();
-        if (targetHealth != null)
+        if (targetHealth != null && !isPermanent)
         {
             targetHealth.TakeDamage(healthToChange, target.GetComponent<Pawn>());
         }

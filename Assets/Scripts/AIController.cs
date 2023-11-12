@@ -8,7 +8,7 @@ public class AIController : Controller
 {
     public enum AIState { Idle, Seek, Flee, TargetPlayerOne, Patrol, Attack, TargetClosestPawn, SeekClosestPawn};
     public AIState currentState;
-     private float lastStateChangeTime;
+    //private float lastStateChangeTime;
     public GameObject target;
     public float fleeDistance;
     public Transform[] patrolPoints;
@@ -30,8 +30,19 @@ public class AIController : Controller
     // Start is called before the first frame update
     public override void Start()
     {
+        // If(when) we have a GameManager
+        if (GameManager.instance != null)
+        {
+            // And we have an ai enemy(ies) list
+            if (GameManager.instance.aiList != null)
+            {
+                // Add the PlayerControllerObject that is being created to the list
+                GameManager.instance.aiList.Add(this);
+                // the .gameObject is because i made this a gameobject list in game manager
+            }
+        }
         base.Start();
-        ChangeState(AIState.Idle);
+        ChangeState(AIState.Patrol);
     }
 
     // Update is called once per frame
@@ -43,7 +54,7 @@ public class AIController : Controller
          base.Update();  
     }
 
-    public void MakeDecisions()
+    public virtual void MakeDecisions()
     {
         switch (currentState)
         {
@@ -128,7 +139,6 @@ public class AIController : Controller
         // Do nothing
     }
 
-    // Previously had public void Seek(Vector3 targetPosition)
     public void Seek(GameObject target)
     {
         // RotateTowards the Funciton
@@ -162,6 +172,7 @@ public class AIController : Controller
 
     protected virtual void DoPawnSeekState()
     {
+        Debug.Log("seeking ~ " + target.name);
         Seek(target);
     }
 
@@ -179,7 +190,7 @@ public class AIController : Controller
         Shoot();
     }
 
-/*    protected virtual void Flee()
+    protected virtual void Flee()
     {
         // Find the Vector to our target
         Vector3 vectorToTarget = target.transform.position - pawn.transform.position;
@@ -202,7 +213,7 @@ public class AIController : Controller
     {
         // Flee
         Flee();
-    }*/
+    }
 
     protected virtual void Patrol()
     {
@@ -240,7 +251,7 @@ public class AIController : Controller
         // Change the current state
         currentState = newState;
         // Save the time we changed states
-        lastStateChangeTime = Time.time;
+        // lastStateChangeTime = Time.time;
         //Debug.Log(lastStateChangeTime);
     }
 
@@ -302,21 +313,23 @@ public class AIController : Controller
         // Iterate through them one at a time
         foreach (Pawn tank in allTanks)
         {
-            Debug.Log("tank added - ");
-            Debug.Log(tank);
-            // If this one is closer than the closest
-            // (remember we assume the first tank in the list is the closest at first)
-            if (Vector3.Distance(pawn.transform.position, tank.transform.position) <= closestTankDistance)
+            if (tank != this.pawn)
             {
-                // It is the closest
-                closestTank = tank;
-                closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+                Debug.Log("tank added - " + tank);
+                // If this one is closer than the closest
+                // (remember we assume the first tank in the list is the closest at first)
+                if (Vector3.Distance(pawn.transform.position, tank.transform.position) <= closestTankDistance)
+                {
+                    // It is the closest
+                    closestTank = tank;
+                    closestTankDistance = Vector3.Distance(pawn.transform.position, closestTank.transform.position);
+                }
             }
         }
 
         // Target the closest tank
         target = closestTank.gameObject;
-        Debug.Log(target);
+        Debug.Log("targeting = " + target.name);
     }
 
     protected virtual void DoTargetClosest()
