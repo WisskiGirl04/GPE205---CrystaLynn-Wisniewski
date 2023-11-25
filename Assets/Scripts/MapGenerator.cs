@@ -42,7 +42,7 @@ public class MapGenerator : MonoBehaviour
     public void GenerateMap()
     {
         // Set our map seed
-        UnityEngine.Random.InitState(mapSeed);
+        //UnityEngine.Random.InitState(mapSeed);
 
         // Clear out the grid - "column" is our X, "row" is our Y
         grid = new Room[collums, rows];

@@ -122,5 +122,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerup:
     duration: 2
-    isPermanent: 1
+    isPermanent: 0
     healthToChange: 2

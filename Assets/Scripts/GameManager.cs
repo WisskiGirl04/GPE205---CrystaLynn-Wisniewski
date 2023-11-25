@@ -22,10 +22,16 @@ public class GameManager : MonoBehaviour
     public List<AIController> aiList;
 
     public int playersAmount;
-
     public PawnSpawnPoint[] spawnPoints;
-
     public MapGenerator mapGenerator;
+
+    // Game States
+    public GameObject TitleScreenStateObject;
+    public GameObject MainMenuStateObject;
+    public GameObject OptionsScreenStateObject;
+    public GameObject CreditsScreenStateObject;
+    public GameObject GameplayStateObject;
+    public GameObject GameOverScreenStateObject;
 
     // Awake is called when the object is created - before Start even runs
     private void Awake()
@@ -196,5 +202,61 @@ public class GameManager : MonoBehaviour
         newAIContObj.GetComponent<AIController>().patrolPoints[1] = spawnPoint.nextWayPoint.transform;
         newAIContObj.GetComponent<AIController>().patrolPoints[2] = spawnPoint.nextWayPoint.nextWayPoint.transform;
         newAIContObj.GetComponent<AIController>().patrolPoints[3] = spawnPoint.nextWayPoint.nextWayPoint.nextWayPoint.transform;
+    }
+
+    //Helper function, deactivate all states
+    private void DeactivateAllStates()
+    {
+        // Deactivate all Game States
+        TitleScreenStateObject.SetActive(false);
+        MainMenuStateObject.SetActive(false);
+        OptionsScreenStateObject.SetActive(false);
+        CreditsScreenStateObject.SetActive(false);
+        GameplayStateObject.SetActive(false);
+        GameOverScreenStateObject.SetActive(false);
+    }
+
+    public void ActivateTitleScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        TitleScreenStateObject.SetActive(true);
+        // Do whatever needs to be done when the title screen starts.
+
+    }
+    public void ActivateMainMenuScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the main menu screen
+        MainMenuStateObject.SetActive(true);
+        // Do Main menu
+    }
+    public void ActivateOptionsScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate options screen
+        OptionsScreenStateObject.SetActive(true);
+        // Do Options screen
+    }
+    public void ActivateCreditsScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // activate credits screen
+        CreditsScreenStateObject.SetActive(true);
+        // do credits screen
+    }
+    public void ActivateGameplayState()
+    {
+        DeactivateAllStates();
+        GameplayStateObject.SetActive(true);
+    }
+    public void ActivateGameOverScreen()
+    {
+        DeactivateAllStates();
+        GameOverScreenStateObject.SetActive(true);
     }
 }

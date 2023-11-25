@@ -56,6 +56,10 @@ public class AIController : Controller
 
     public virtual void MakeDecisions()
     {
+        if(pawn == null)
+        {
+            Destroy(gameObject);
+        }
         switch (currentState)
         {
             case AIState.Idle:
