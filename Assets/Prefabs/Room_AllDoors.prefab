@@ -115,9 +115,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8069428465869260977}
   - component: {fileID: 4139673537457646341}
+  - component: {fileID: -4342077073971110446}
   m_Layer: 0
   m_Name: Room_AllDoors
-  m_TagString: Untagged
+  m_TagString: MyGameObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -163,6 +164,18 @@ MonoBehaviour:
   doorSouth: {fileID: 6021519515768904959}
   doorEast: {fileID: 3778916062548619497}
   doorWest: {fileID: 245043409539335679}
+--- !u!114 &-4342077073971110446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319965293731048617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198f8b73af1ec714894938040b61dcf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3728212532306380493
 GameObject:
   m_ObjectHideFlags: 0

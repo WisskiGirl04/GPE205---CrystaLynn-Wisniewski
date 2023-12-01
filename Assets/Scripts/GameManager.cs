@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GameState { TitleScreenState, MainMenuState, OptionsScreenState, CreditsScreenState, GameplayState, GameOverState }
+    public GameState currentState;
+
     public static GameManager instance;
     public Transform playerSpawnTransform;
 
@@ -24,6 +28,9 @@ public class GameManager : MonoBehaviour
     public int playersAmount;
     public PawnSpawnPoint[] spawnPoints;
     public MapGenerator mapGenerator;
+
+    public List<GameObject> allObjects;
+    public bool destroyAllObjects;
 
     // Game States
     public GameObject TitleScreenStateObject;
@@ -55,34 +62,54 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        // Temp Code - spawn player as soon as the GameManager starts
-        //SpawnPlayer();
+        mapGenerator = GetComponent<MapGenerator>();
+        //mapGenerator.GenerateMap();
+        DeactivateAllStates();
+        ActivateTitleScreen();
+/*
         mapGenerator = GetComponent<MapGenerator>();
         mapGenerator.GenerateMap();
 
-        spawnPoints = FindObjectsOfType<PawnSpawnPoint>();
-        foreach (PawnSpawnPoint spawnP in spawnPoints)
+        if (currentState == GameState.GameplayState)
         {
-            Debug.Log(spawnP.gameObject.name);
+            spawnPoints = FindObjectsOfType<PawnSpawnPoint>();
+            foreach (PawnSpawnPoint spawnP in spawnPoints)
+            {
+                Debug.Log(spawnP.gameObject.name);
+            }
+            Debug.Log(spawnPoints.Length);
+            SpawnPlayer(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+
+            SpawnAggressiveAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+            SpawnCowardlyAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+            SpawnObservantAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+            SpawnSurvivorAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
         }
-        Debug.Log(spawnPoints.Length);
-        SpawnPlayer(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-
-        SpawnAggressiveAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-        SpawnCowardlyAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-        SpawnObservantAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-        SpawnSurvivorAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-
-
+*/
     }
 
     public void Update()
     {
-        if(playersAmount <= 0)
+        // Temp code :
+        // Leave here so that player consistently respawns after death for now
+        if (currentState == GameState.GameplayState)
         {
-            SpawnPlayer(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+            if (playersAmount <= 0)
+            {
+                SpawnPlayer(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+            }
+        }
+        //Testing Scripting -- allObjects = GameObject.FindGameObjectsWithTag("MyGameObject");
+        if (allObjects.Count <= 0)
+        {
+            foreach (GameObject Obj in GameObject.FindGameObjectsWithTag("MyGameObject"))
+            {
+                allObjects.Add(Obj);
+                Debug.Log("game object " + Obj.name + " to allObjects list in Game Manager script.");
+            }
         }
     }
+
 
     public void SpawnPlayer(PawnSpawnPoint spawnPoint)
     {
@@ -223,6 +250,7 @@ public class GameManager : MonoBehaviour
         // Activate the title screen
         TitleScreenStateObject.SetActive(true);
         // Do whatever needs to be done when the title screen starts.
+        currentState = GameState.TitleScreenState;
 
     }
     public void ActivateMainMenuScreen()
@@ -232,6 +260,7 @@ public class GameManager : MonoBehaviour
         // Activate the main menu screen
         MainMenuStateObject.SetActive(true);
         // Do Main menu
+        currentState = GameState.MainMenuState;
     }
     public void ActivateOptionsScreen()
     {
@@ -240,6 +269,7 @@ public class GameManager : MonoBehaviour
         // Activate options screen
         OptionsScreenStateObject.SetActive(true);
         // Do Options screen
+        currentState = GameState.OptionsScreenState;
     }
     public void ActivateCreditsScreen()
     {
@@ -248,15 +278,27 @@ public class GameManager : MonoBehaviour
         // activate credits screen
         CreditsScreenStateObject.SetActive(true);
         // do credits screen
+        currentState = GameState.CreditsScreenState;
     }
     public void ActivateGameplayState()
     {
+        // Deactivate all states
         DeactivateAllStates();
+        destroyAllObjects = true;
+        Debug.Log(destroyAllObjects);
+
+        // Activate the Gameplay state
         GameplayStateObject.SetActive(true);
+        // Do gameplay state
+        //currentState = GameState.GameplayState;
     }
     public void ActivateGameOverScreen()
     {
+        // Deactivate all states
         DeactivateAllStates();
+        // Activate Game over screen
         GameOverScreenStateObject.SetActive(true);
+        // Do game over screen
+        currentState = GameState.GameOverState;
     }
 }

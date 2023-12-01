@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 6163929199048379176}
   - component: {fileID: 6160869962335511939}
   - component: {fileID: 5515833952379406835}
+  - component: {fileID: 5531417926297426771}
   m_Layer: 0
   m_Name: HealthPickupCapsule
-  m_TagString: Untagged
+  m_TagString: MyGameObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,3 +125,15 @@ MonoBehaviour:
     duration: 2
     isPermanent: 0
     healthToChange: 2
+--- !u!114 &5531417926297426771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3986953094636948945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198f8b73af1ec714894938040b61dcf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

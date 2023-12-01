@@ -20,7 +20,7 @@ public class HealthPickupSpawner : MonoBehaviour
     void Update()
     {
         // If the health pickup is not already there then spawn one
-        if(spawnedPickup == null)
+        if(spawnedPickup == null && GameManager.instance.allObjects.Count > 0)
         {
             if(Time.time >= nextSpawnTime)
             {
