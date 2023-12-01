@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public GameObject playerControllerPrefab;
     public GameObject tankPawnPrefab;
 
+    TankShooter tankShooter;
+
     // AI Personality prefabs
     public GameObject aiAggresivePrefab;
     public GameObject aiCowardlyPrefab;
@@ -39,6 +41,7 @@ public class GameManager : MonoBehaviour
     public GameObject CreditsScreenStateObject;
     public GameObject GameplayStateObject;
     public GameObject GameOverScreenStateObject;
+    
 
     // Awake is called when the object is created - before Start even runs
     private void Awake()
@@ -66,39 +69,41 @@ public class GameManager : MonoBehaviour
         //mapGenerator.GenerateMap();
         DeactivateAllStates();
         ActivateTitleScreen();
-/*
-        mapGenerator = GetComponent<MapGenerator>();
-        mapGenerator.GenerateMap();
 
-        if (currentState == GameState.GameplayState)
-        {
-            spawnPoints = FindObjectsOfType<PawnSpawnPoint>();
-            foreach (PawnSpawnPoint spawnP in spawnPoints)
-            {
-                Debug.Log(spawnP.gameObject.name);
-            }
-            Debug.Log(spawnPoints.Length);
-            SpawnPlayer(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+        /*
+                mapGenerator = GetComponent<MapGenerator>();
+                mapGenerator.GenerateMap();
 
-            SpawnAggressiveAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-            SpawnCowardlyAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-            SpawnObservantAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-            SpawnSurvivorAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-        }
-*/
+                if (currentState == GameState.GameplayState)
+                {
+                    spawnPoints = FindObjectsOfType<PawnSpawnPoint>();
+                    foreach (PawnSpawnPoint spawnP in spawnPoints)
+                    {
+                        Debug.Log(spawnP.gameObject.name);
+                    }
+                    Debug.Log(spawnPoints.Length);
+                    SpawnPlayer(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+
+                    SpawnAggressiveAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+                    SpawnCowardlyAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+                    SpawnObservantAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+                    SpawnSurvivorAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+                }
+        */
     }
 
     public void Update()
     {
         // Temp code :
         // Leave here so that player consistently respawns after death for now
+        /*
         if (currentState == GameState.GameplayState)
         {
             if (playersAmount <= 0)
             {
                 SpawnPlayer(spawnPoints[Random.Range(0, spawnPoints.Length)]);
             }
-        }
+        } */
         //Testing Scripting -- allObjects = GameObject.FindGameObjectsWithTag("MyGameObject");
         if (allObjects.Count <= 0)
         {
@@ -119,7 +124,7 @@ public class GameManager : MonoBehaviour
 
         // Spawn our Tank and connect the player's controller
         GameObject tankOne = Instantiate(tankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
-        // Debug.Log("Player spawned at " + spawnPoint);
+        // Debug.Log("Player spawned at " + spawnPoint); 
         playersAmount++;
         // Get the Player Controller component and Pawn component
         Controller controllerOne = playerOne.GetComponent<Controller>();
@@ -134,6 +139,29 @@ public class GameManager : MonoBehaviour
 
         // Connect the components
         controllerOne.pawn = pawnOne;
+        /*
+        // Find camera object to make camera follow player
+        // Moved this to a global variable
+        GameObject cameraOne = FindObjectOfType<Camera>().gameObject;
+        FindCameraPoisition(tankOne, cameraPosition);
+        Debug.Log("tank position : " + tankOne.transform.position);
+        Debug.Log(cameraPosition);
+
+        // Connect them by making the players pawn the camera's parent object
+        cameraOne.transform.parent = tankOne.transform;
+        cameraOne.transform.SetLocalPositionAndRotation(cameraPosition, tankOne.transform.rotation);
+        Debug.Log("camera position : " + cameraOne.transform.position);
+        */
+    }
+    private Vector3 FindCameraPoisition(GameObject tankOnePosition, Vector3 cameraPosition)
+    {
+        float positionX =  tankOnePosition.transform.position.x;
+        float positionY =  tankOnePosition.transform.position.y;
+        positionY = positionY + 50;
+        float positionZ =  tankOnePosition.transform.position.z;
+        cameraPosition = new Vector3(positionX, positionY, positionZ);
+        Debug.Log(cameraPosition);
+        return cameraPosition;
     }
 
     public void SpawnAggressiveAI(PawnSpawnPoint spawnPoint)

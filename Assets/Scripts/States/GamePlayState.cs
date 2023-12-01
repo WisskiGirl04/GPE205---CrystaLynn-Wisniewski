@@ -37,23 +37,31 @@ public class GamePlayState : MonoBehaviour
             if (GameManager.instance.currentState == GameState.GameplayState)
             {
                 GameManager.instance.spawnPoints = FindObjectsOfType<PawnSpawnPoint>();
-                foreach (PawnSpawnPoint spawnP in GameManager.instance.spawnPoints)
+         /*       foreach (PawnSpawnPoint spawnP in GameManager.instance.spawnPoints)
                 {
                     Debug.Log(spawnP.gameObject.name);
-                }
+                }  */
                 Debug.Log(GameManager.instance.spawnPoints.Length);
-                GameManager.instance.SpawnPlayer(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
 
+                if (GameManager.instance.currentState == GameState.GameplayState)
+                {
+                    if (GameManager.instance.playersAmount <= 0)
+                    {
+                        GameManager.instance.SpawnPlayer(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
+                    }
+                }
                 GameManager.instance.SpawnAggressiveAI(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
                 GameManager.instance.SpawnCowardlyAI(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
                 GameManager.instance.SpawnObservantAI(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
                 GameManager.instance.SpawnSurvivorAI(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
             }
         }
-        if (GameManager.instance.currentState == GameManager.GameState.GameplayState && GameManager.instance.destroyAllObjects == false)
+        /*
+        if (GameManager.instance.currentState != GameManager.GameState.GameplayState && GameManager.instance.destroyAllObjects == false)
         {
-            //GameManager.instance.mapGenerator.GenerateMap();
-        }
+            GameManager.instance.mapGenerator.GenerateMap();
+        } */
+        // ^^ not sure why this is here. triple check this
     }
 }
    

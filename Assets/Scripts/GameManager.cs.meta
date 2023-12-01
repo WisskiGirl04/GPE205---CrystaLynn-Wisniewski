@@ -11,6 +11,14 @@ MonoImporter:
   - aiCowardlyPrefab: {fileID: 14179078561726432, guid: f55f1cb1438f0a845be6cbf03aadf403, type: 3}
   - aiObservantPrefab: {fileID: 5036364862087452837, guid: 61782fe4374cac74cba6ab1c8750c926, type: 3}
   - aiSurvivorPrefab: {fileID: 3054185478599643221, guid: 6fa871fa65f1df24db8afc5721e269bc, type: 3}
+  - myCameraPrefab: {fileID: 775606258840984800, guid: dff716e017e329246888b2b385793c28, type: 3}
+  - mapGenerator: {instanceID: 0}
+  - TitleScreenStateObject: {instanceID: 0}
+  - MainMenuStateObject: {instanceID: 0}
+  - OptionsScreenStateObject: {instanceID: 0}
+  - CreditsScreenStateObject: {instanceID: 0}
+  - GameplayStateObject: {instanceID: 0}
+  - GameOverScreenStateObject: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

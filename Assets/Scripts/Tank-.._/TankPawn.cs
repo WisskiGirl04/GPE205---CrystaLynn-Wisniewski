@@ -6,10 +6,36 @@ using static UnityEngine.GraphicsBuffer;
 public class TankPawn : Pawn
 {
 
+    private Vector3 cameraPosition;
+    private Quaternion cameraRotation;
+
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
+        
+        if (gameObject.name != "SurvivorAI" && gameObject.name != "ObservantAI" && gameObject.name != "CowardlyAI" && gameObject.name != "AggressiveAI")
+        {
+            Debug.Log("'tankPawn in player controller :" + gameObject.name);
+            GameObject cameraOne = FindObjectOfType<Camera>().gameObject;
+            float positionX = gameObject.transform.position.x;
+            float positionY = gameObject.transform.position.y;
+            positionY = positionY + 50;
+            float positionZ = gameObject.transform.position.z;
+            cameraPosition = new Vector3(positionX, positionY, positionZ);
+
+            float rotationW = gameObject.transform.rotation.w;
+            float rotationY = gameObject.transform.rotation.y;
+            float rotationZ = gameObject.transform.rotation.z;
+            float rotationX = 90.0f;
+            cameraRotation = new Quaternion(rotationX, rotationY, rotationZ, rotationW);
+            Debug.Log("x: " + cameraRotation.x + ", y: " + cameraRotation.y + " z: " + cameraRotation.z + " w: " + cameraRotation.w);
+
+
+            // Connect them by making the players pawn the camera's parent object
+            cameraOne.transform.parent = gameObject.transform;
+            cameraOne.transform.position = cameraPosition;
+        }
     }
 
     // Update is called once per frame

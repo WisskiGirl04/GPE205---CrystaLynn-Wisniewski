@@ -39,6 +39,7 @@ public class Health : MonoBehaviour
         currentHealth = currentHealth + amount;
         Debug.Log(amount + " healed for " + gameObject.name + " by " + source.name);
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        if (source.GetComponent<PlayerController>() != null) { }
     }
 
     public void Die (Pawn source)
@@ -46,6 +47,7 @@ public class Health : MonoBehaviour
         GameManager.instance.playersAmount--;
         Debug.Log("Die called, players amount is " + GameManager.instance.playersAmount);
         Debug.Log("Uh oh!");
+        Destroy(gameObject.GetComponent<Pawn>().controller);
         Destroy(gameObject);
     }
 
