@@ -1,20 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-/*
+[System.Serializable]
+
 public class ScorePowerUp : PowerUp
 {
-    public float scoreToChange;
+    public float scoreToAdd;
     public override void Apply(PowerUpManager target)
     {
-        // Apply health changes
-        PlayerController targetScore = target.s
-        if (targetHealth != null)
+        Pawn pawn = target.GetComponent<Pawn>();
+
+        if(pawn != null)
         {
-            // The second parameter is the pawn who caused the healing - in this case they healed themselves
-            targetHealth.Heal(scoreToChange, target.GetComponent<Pawn>());
+            pawn.controller.AddToScore(scoreToAdd);
         }
+
+
+        /* // Another way to add the score?
+        Controller targetController = target.GetComponent<Pawn>().controller;
+        targetController.AddToScore(scoreToChange);
+        */
+    }
+
+    public override void Remove(PowerUpManager target)
+    {
+        //to implement later
     }
 
 }
-*/

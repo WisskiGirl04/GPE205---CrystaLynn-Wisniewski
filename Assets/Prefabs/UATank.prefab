@@ -144,11 +144,12 @@ MonoBehaviour:
   shooter: {fileID: 0}
   bulletPrefab: {fileID: 2813200230441028570, guid: b4c0bfca6d9ad6d4a91d336b84d578a6, type: 3}
   fireForce: 400
-  damageDone: 2
+  damageDone: 5
   bulletLifespan: 1.5
-  fireRate: 0.5
+  fireRate: 1
   noise: {fileID: 0}
   noiseMakerVolume: 8
+  controller: {fileID: 0}
 --- !u!54 &458577228774091794
 Rigidbody:
   m_ObjectHideFlags: 0

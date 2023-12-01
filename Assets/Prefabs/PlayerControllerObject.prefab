@@ -46,10 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pawn: {fileID: 6272908212998407304, guid: 44d0735f0e4151c46a38fc93112a3826, type: 3}
+  score: 0
+  scoreToAdd: 200
   moveForwardKey: 119
   moveBackwardKey: 115
-  rotateClockwiseKey: 97
-  rotateCounterClockwiseKey: 100
+  rotateClockwiseKey: 100
+  rotateCounterClockwiseKey: 97
   turboKey: 303
   shootKey: 32
 --- !u!114 &5125092301381876722

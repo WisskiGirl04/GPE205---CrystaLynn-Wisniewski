@@ -70,26 +70,6 @@ public class GameManager : MonoBehaviour
         DeactivateAllStates();
         ActivateTitleScreen();
 
-        /*
-                mapGenerator = GetComponent<MapGenerator>();
-                mapGenerator.GenerateMap();
-
-                if (currentState == GameState.GameplayState)
-                {
-                    spawnPoints = FindObjectsOfType<PawnSpawnPoint>();
-                    foreach (PawnSpawnPoint spawnP in spawnPoints)
-                    {
-                        Debug.Log(spawnP.gameObject.name);
-                    }
-                    Debug.Log(spawnPoints.Length);
-                    SpawnPlayer(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-
-                    SpawnAggressiveAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-                    SpawnCowardlyAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-                    SpawnObservantAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-                    SpawnSurvivorAI(spawnPoints[Random.Range(0, spawnPoints.Length)]);
-                }
-        */
     }
 
     public void Update()
@@ -130,6 +110,9 @@ public class GameManager : MonoBehaviour
         Controller controllerOne = playerOne.GetComponent<Controller>();
         Pawn pawnOne = tankOne.GetComponent<Pawn>();
 
+        controllerOne.pawn = pawnOne;
+        pawnOne.controller = controllerOne;
+
         // Should rename the playerOne variable
         tankOne.AddComponent<NoiseMaker>();
         pawnOne.noise = tankOne.GetComponent<NoiseMaker>();
@@ -139,29 +122,6 @@ public class GameManager : MonoBehaviour
 
         // Connect the components
         controllerOne.pawn = pawnOne;
-        /*
-        // Find camera object to make camera follow player
-        // Moved this to a global variable
-        GameObject cameraOne = FindObjectOfType<Camera>().gameObject;
-        FindCameraPoisition(tankOne, cameraPosition);
-        Debug.Log("tank position : " + tankOne.transform.position);
-        Debug.Log(cameraPosition);
-
-        // Connect them by making the players pawn the camera's parent object
-        cameraOne.transform.parent = tankOne.transform;
-        cameraOne.transform.SetLocalPositionAndRotation(cameraPosition, tankOne.transform.rotation);
-        Debug.Log("camera position : " + cameraOne.transform.position);
-        */
-    }
-    private Vector3 FindCameraPoisition(GameObject tankOnePosition, Vector3 cameraPosition)
-    {
-        float positionX =  tankOnePosition.transform.position.x;
-        float positionY =  tankOnePosition.transform.position.y;
-        positionY = positionY + 50;
-        float positionZ =  tankOnePosition.transform.position.z;
-        cameraPosition = new Vector3(positionX, positionY, positionZ);
-        Debug.Log(cameraPosition);
-        return cameraPosition;
     }
 
     public void SpawnAggressiveAI(PawnSpawnPoint spawnPoint)

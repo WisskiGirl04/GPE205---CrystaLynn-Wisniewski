@@ -8,7 +8,7 @@ public abstract class Controller : MonoBehaviour
     public Pawn pawn;
 
     public float score;
-
+    public float scoreToAdd;
     // Start is called before the first frame update
     public virtual void Start()
     { 
@@ -24,7 +24,7 @@ public abstract class Controller : MonoBehaviour
     {
     }
 
-    public void AddToScore(float scoreToAdd)
+    public virtual void AddToScore(float scoreToAdd)
     {
         score += scoreToAdd;
     }

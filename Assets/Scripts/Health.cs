@@ -7,7 +7,9 @@ public class Health : MonoBehaviour
     // Variable to hold current Health
     public float currentHealth;
     // Variable to hold max amount of Health
-    public float maxHealth; 
+    public float maxHealth;
+
+    private float scoreToAdd;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +49,11 @@ public class Health : MonoBehaviour
         GameManager.instance.playersAmount--;
         Debug.Log("Die called, players amount is " + GameManager.instance.playersAmount);
         Debug.Log("Uh oh!");
+        if (source.controller != null)
+        {
+            scoreToAdd = source.controller.scoreToAdd;
+            source.controller.AddToScore(scoreToAdd);
+        }
         Destroy(gameObject.GetComponent<Pawn>().controller);
         Destroy(gameObject);
     }
