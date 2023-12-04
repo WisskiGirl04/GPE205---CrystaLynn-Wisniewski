@@ -1,7 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.UI;
+using TMPro;
 using UnityEngine;
+using UnityEditor.UI;
+using UnityEngine.UIElements;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -42,7 +47,18 @@ public class GameManager : MonoBehaviour
     public GameObject CreditsScreenStateObject;
     public GameObject GameplayStateObject;
     public GameObject GameOverScreenStateObject;
-    
+
+    public UnityEngine.UI.Toggle MapOfDay;
+    public Text Seed;
+    public UnityEngine.UI.Slider SFXVolume;
+    public UnityEngine.UI.Slider MusicVolume;
+    public InputField InputField;
+    public InputFieldEditor InputFieldEditor;
+    public InputEvent InputEvent;
+
+    public GameObject[] MapOfDayToggleChildren;
+    public GameObject[] SeedInputChildren;
+    public GameObject[] TextAreaChildren;
 
     // Awake is called when the object is created - before Start even runs
     private void Awake()
@@ -94,6 +110,63 @@ public class GameManager : MonoBehaviour
                 Debug.Log("game object " + Obj.name + " to allObjects list in Game Manager script.");
             }
         }
+        string seedPlaceholder = "0";
+        //Seed.text = seedPlaceholder;
+        if (MapOfDay != null)
+        {
+            foreach (GameObject toggleChild in MapOfDayToggleChildren)
+            {
+                if (toggleChild.GetComponent<Text>() != null)
+                {
+                    Debug.Log("Toggle children that are Text: " + toggleChild.GetComponentInChildren<Text>().name);
+                }
+                Debug.Log(toggleChild.name);
+                if (toggleChild.name == "Random x Player Seed Input")
+                {
+                    foreach (GameObject inputFieldChild in SeedInputChildren)
+                    {
+                        if (inputFieldChild.GetComponent<Text>() != null)
+                        {
+                            Debug.Log("Input children that are Text: " + inputFieldChild.GetComponent<Text>().name);
+                        }
+                        Debug.Log(inputFieldChild.name);
+                        if (inputFieldChild.name == "Text Area")
+                        {
+                            Debug.Log(inputFieldChild.GetComponent<Text>());
+                            //Debug.Log(inputFieldChild.GetComponent<Text>().name);
+                            //Seed = inputFieldChild.GetComponent<Text>();
+                            if (Seed == null)
+                            {
+                                Debug.Log("seed is still null???");
+                            }
+                            foreach (GameObject textAreaChild in TextAreaChildren)
+                            {
+                                if("Text Area children that are Text: " + textAreaChild.GetComponentInChildren<Text>() != null)
+                                {
+                                    Debug.Log(textAreaChild.GetComponentInChildren<Text>().name);
+                                }
+                                Debug.Log(textAreaChild.name);
+                                if (textAreaChild.name == "Seed Text")
+                                {
+                                    //Debug.Log(textAreaChild.GetComponent<Text>().text);
+                                    //Debug.Log(textAreaChild.GetComponent<Text>());
+                                    //Debug.Log(textAreaChild.GetComponent<Text>().name);
+                                    //Seed = textAreaChild.GetComponent<Text>();
+                                    if(Seed == null)
+                                    {
+                                        Debug.Log("seed is still null???");
+                                    }
+                                    //this.Seed.text = seedPlaceholder;
+                                   // Debug.Log(Seed.name);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+         //       Debug.Log(gameObject.GetComponentInChildren<TMP_InputField>().name);
+        }
+        //Seed.text
     }
 
 

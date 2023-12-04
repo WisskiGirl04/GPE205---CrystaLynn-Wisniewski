@@ -1066,6 +1066,22 @@ MonoBehaviour:
   CreditsScreenStateObject: {fileID: 77554585}
   GameplayStateObject: {fileID: 1833760995}
   GameOverScreenStateObject: {fileID: 930217709}
+  MapOfDay: {fileID: 1780297906}
+  Seed: {fileID: 0}
+  SFXVolume: {fileID: 0}
+  MusicVolume: {fileID: 0}
+  InputField: {fileID: 0}
+  InputFieldEditor: {fileID: 0}
+  MapOfDayToggleChildren:
+  - {fileID: 110106773}
+  - {fileID: 687513791}
+  - {fileID: 676068731}
+  SeedInputChildren:
+  - {fileID: 2063794423}
+  - {fileID: 473727228}
+  TextAreaChildren:
+  - {fileID: 847395387}
+  - {fileID: 1830277525}
 --- !u!4 &354876635
 Transform:
   m_ObjectHideFlags: 0
@@ -3856,7 +3872,7 @@ GameObject:
   - component: {fileID: 1830277528}
   - component: {fileID: 1830277527}
   m_Layer: 0
-  m_Name: Text
+  m_Name: Seed Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
