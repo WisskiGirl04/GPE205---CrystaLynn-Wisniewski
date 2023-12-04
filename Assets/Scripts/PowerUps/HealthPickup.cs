@@ -25,8 +25,11 @@ public class HealthPickup : MonoBehaviour
         // If our variable is not equal to null (the other object has a PowerUpManager and it is stored)cv 
         if(powerupManager != null)
         {
-            // Add the powerup
-            powerupManager.Add(powerup);
+            if (other.GetComponent<Health>().currentHealth < other.GetComponent<Health>().maxHealth)
+            {
+                // Add the powerup
+                powerupManager.Add(powerup);
+            }
 
             // Destroy this pickup
             Destroy(this.gameObject);

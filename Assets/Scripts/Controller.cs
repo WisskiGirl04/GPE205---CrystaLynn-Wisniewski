@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public abstract class Controller : MonoBehaviour
 {
@@ -9,9 +12,17 @@ public abstract class Controller : MonoBehaviour
 
     public float score;
     public float scoreToAdd;
+
+    public Text scoreText;
     // Start is called before the first frame update
     public virtual void Start()
-    { 
+    {
+        //this.scoreText.text = this.score.ToString();
+        if (pawn.name == "PlayerPawn")
+        {
+            scoreText = pawn.GetComponentInChildren<Text>();
+            Debug.Log(this.scoreText.name);
+        }
     }
 
     // Update is called once per frame
@@ -26,7 +37,8 @@ public abstract class Controller : MonoBehaviour
 
     public virtual void AddToScore(float scoreToAdd)
     {
-        score += scoreToAdd;
+        this.score += scoreToAdd;
+        this.scoreText.text = this.score.ToString();
     }
 
 }

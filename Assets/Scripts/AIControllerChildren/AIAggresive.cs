@@ -44,11 +44,11 @@ public class AIAggresive : AIController
                 // Check for transitions
                 if (IsHasTarget() && IsDistanceLessThan(target, 10))
                 {
-                    ChangeState(AIState.Idle);
+                    ChangeState(AIState.Attack);
                 }
                 else
                 {
-                    ChangeState(AIState.TargetPlayerOne);
+                    //ChangeState(AIState.TargetPlayerOne);
                 }
                 break;
             /*            case AIState.Flee:

@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
 
     // Prefabs
     public GameObject playerControllerPrefab;
-    public GameObject tankPawnPrefab;
+    public GameObject playerTankPawnPrefab;
+    public GameObject aiTankPawnPrefab;
 
     TankShooter tankShooter;
 
@@ -75,7 +76,7 @@ public class GameManager : MonoBehaviour
     public void Update()
     {
         // Temp code :
-        // Leave here so that player consistently respawns after death for now
+        // here so that player consistently respawns after death for now
         /*
         if (currentState == GameState.GameplayState)
         {
@@ -98,14 +99,15 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayer(PawnSpawnPoint spawnPoint)
     {
-        // Spawn the Player Controller at (0,0,0) with no rotation
+        // Spawn the Player Controller object at (0,0,0) with no rotation
         GameObject playerOne = Instantiate(playerControllerPrefab, Vector3.zero,
             Quaternion.identity) as GameObject;
 
-        // Spawn our Tank and connect the player's controller
-        GameObject tankOne = Instantiate(tankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
+        // Spawn our Tank object
+        GameObject tankOne = Instantiate(playerTankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
         // Debug.Log("Player spawned at " + spawnPoint); 
         playersAmount++;
+
         // Get the Player Controller component and Pawn component
         Controller controllerOne = playerOne.GetComponent<Controller>();
         Pawn pawnOne = tankOne.GetComponent<Pawn>();
@@ -120,6 +122,9 @@ public class GameManager : MonoBehaviour
 
         tankOne.AddComponent<PowerUpManager>();
 
+        playerOne.name = "PlayerController";
+        tankOne.name = "PlayerPawn";
+
         // Connect the components
         controllerOne.pawn = pawnOne;
     }
@@ -130,7 +135,7 @@ public class GameManager : MonoBehaviour
         GameObject newAIContObj = Instantiate(aiAggresivePrefab, Vector3.zero, Quaternion.identity) as GameObject;
         
         // Spawn the Pawn 
-        GameObject newAIPawnObj = Instantiate(tankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
+        GameObject newAIPawnObj = Instantiate(aiTankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
         // Debug.Log("Aggressive spawned at " + spawnPoint);
 
         // Attach needed components and connect the controller to pawn
@@ -139,8 +144,10 @@ public class GameManager : MonoBehaviour
 
         newAIPawnObj.AddComponent<PowerUpManager>();
         newController.pawn = newPawn;
+        newPawn.controller = newController;
 
         newAIPawnObj.name = "AggressiveAI";
+        newAIContObj.name = "AIAggressiveController";
 
         newAIContObj.GetComponent<AIController>().patrolPoints[0] = spawnPoint.transform;
         newAIContObj.GetComponent<AIController>().patrolPoints[1] = spawnPoint.nextWayPoint.transform;
@@ -153,7 +160,7 @@ public class GameManager : MonoBehaviour
         GameObject newAIContObj = Instantiate(aiCowardlyPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
         // Spawn the Pawn 
-        GameObject newAIPawnObj = Instantiate(tankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
+        GameObject newAIPawnObj = Instantiate(aiTankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
         // Debug.Log("Coward spawned at " + spawnPoint);
         // Attach needed components and connect the controller to pawn
 
@@ -162,8 +169,10 @@ public class GameManager : MonoBehaviour
 
         newAIPawnObj.AddComponent<PowerUpManager>();
         newController.pawn = newPawn;
+        newPawn.controller = newController;
 
         newAIPawnObj.name = "CowardlyAI";
+        newAIContObj.name = "AICowardlyController";
 
         newAIContObj.GetComponent<AIController>().patrolPoints[0] = spawnPoint.transform;
         newAIContObj.GetComponent<AIController>().patrolPoints[1] = spawnPoint.nextWayPoint.transform;
@@ -177,7 +186,7 @@ public class GameManager : MonoBehaviour
         GameObject newAIContObj = Instantiate(aiObservantPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
         // Spawn the Pawn 
-        GameObject newAIPawnObj = Instantiate(tankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
+        GameObject newAIPawnObj = Instantiate(aiTankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
         // Debug.Log("Observant spawned at " + spawnPoint);
         // Attach needed components and connect the controller to pawn
 
@@ -186,8 +195,10 @@ public class GameManager : MonoBehaviour
 
         newAIPawnObj.AddComponent<PowerUpManager>();
         newController.pawn = newPawn;
+        newPawn.controller = newController;
 
         newAIPawnObj.name = "ObservantAI";
+        newAIContObj.name = "AIObservantController";
 
         newAIContObj.GetComponent<AIController>().patrolPoints[0] = spawnPoint.transform;
         newAIContObj.GetComponent<AIController>().patrolPoints[1] = spawnPoint.nextWayPoint.transform;
@@ -201,7 +212,7 @@ public class GameManager : MonoBehaviour
         GameObject newAIContObj = Instantiate(aiSurvivorPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
         // Spawn the Pawn 
-        GameObject newAIPawnObj = Instantiate(tankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
+        GameObject newAIPawnObj = Instantiate(aiTankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
         //Debug.Log("Survivor spawned at " + spawnPoint);
         // Attach needed components and connect the controller to pawn
 
@@ -210,8 +221,10 @@ public class GameManager : MonoBehaviour
 
         newAIPawnObj.AddComponent<PowerUpManager>();
         newController.pawn = newPawn;
+        newPawn.controller = newController;
 
         newAIPawnObj.name = "SurvivorAI";
+        newAIContObj.name = "AISurvivorController";
 
         newAIContObj.GetComponent<AIController>().patrolPoints[0] = spawnPoint.transform;
         newAIContObj.GetComponent<AIController>().patrolPoints[1] = spawnPoint.nextWayPoint.transform;

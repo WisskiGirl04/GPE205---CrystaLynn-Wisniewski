@@ -20,17 +20,9 @@ public class TankPawn : Pawn
             GameObject cameraOne = FindObjectOfType<Camera>().gameObject;
             float positionX = gameObject.transform.position.x;
             float positionY = gameObject.transform.position.y;
-            positionY = positionY + 50;
+            positionY = positionY + 30f;
             float positionZ = gameObject.transform.position.z;
             cameraPosition = new Vector3(positionX, positionY, positionZ);
-
-            float rotationW = gameObject.transform.rotation.w;
-            float rotationY = gameObject.transform.rotation.y;
-            float rotationZ = gameObject.transform.rotation.z;
-            float rotationX = 90.0f;
-            cameraRotation = new Quaternion(rotationX, rotationY, rotationZ, rotationW);
-            Debug.Log("x: " + cameraRotation.x + ", y: " + cameraRotation.y + " z: " + cameraRotation.z + " w: " + cameraRotation.w);
-
 
             // Connect them by making the players pawn the camera's parent object
             cameraOne.transform.parent = gameObject.transform;

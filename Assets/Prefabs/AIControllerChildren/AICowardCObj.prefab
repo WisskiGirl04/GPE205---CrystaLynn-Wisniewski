@@ -46,19 +46,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pawn: {fileID: 0}
-  currentState: 0
+  score: 0
+  scoreToAdd: 200
+  scoreText: {fileID: 0}
+  currentState: 4
   target: {fileID: 0}
-  fleeDistance: 0
+  fleeDistance: 5
   patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  patrolPointStopDistance: 1
+  patrolPointStopDistance: 4
   loopPatrol: 1
   targetPawn: {fileID: 0}
-  hearingDistance: 0
-  fieldOfView: 0
+  hearingDistance: 5
+  fieldOfView: 8
   allTanks: []
   closestTank: {fileID: 0}
   closestTankDistance: 0

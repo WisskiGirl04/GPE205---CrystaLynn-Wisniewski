@@ -81,15 +81,10 @@ public class AIController : Controller
                 break;
             case AIState.Seek:
                 // Do work
-                DoAttackState();
                 // Check for transitions
                 if (IsHasTarget() && IsDistanceLessThan(target, 10))
                 {
-                    ChangeState(AIState.Idle);
-                }
-                else
-                {
-                    ChangeState(AIState.TargetPlayerOne);
+                    ChangeState(AIState.Attack);
                 }
                 break;
 /*            case AIState.Flee:
@@ -113,7 +108,10 @@ public class AIController : Controller
                 break;
                 case AIState.Attack:
                 // Do work
-                DoAttackState();
+                if (IsHasTarget())
+                {
+                    DoAttackState();
+                }
                 break;
             case AIState.Patrol:
                 // Do work
@@ -225,6 +223,9 @@ public class AIController : Controller
         if (patrolPoints.Length > currentPatrolPoint)
         {
             // Then seek that waypoint
+            //...
+            // if statement keeps coming back as not haveing an instance of an object for the object reference
+            //if(this.gameObject.GetComponent<Pawn>().GetComponent<Health>().currentHealth > 0)
             Seek(patrolPoints[currentPatrolPoint]);
             // If we are close enough, then increment to next waypoint
             if (Vector3.Distance(pawn.transform.position, patrolPoints[currentPatrolPoint].position) < patrolPointStopDistance)
@@ -382,6 +383,7 @@ public class AIController : Controller
         if (angleToTarget < fieldOfView)
         {
             Debug.Log("In field of view!");
+            Debug.Log("True!");
             return true;
         }
         else

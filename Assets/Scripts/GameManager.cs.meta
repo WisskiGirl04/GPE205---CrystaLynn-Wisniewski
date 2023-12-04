@@ -6,12 +6,11 @@ MonoImporter:
   defaultReferences:
   - playerSpawnTransform: {instanceID: 0}
   - playerControllerPrefab: {fileID: 6436080775813916701, guid: 85354fb1995fd5b479d274ba98b1c55b, type: 3}
-  - tankPawnPrefab: {fileID: 4798114153979411682, guid: 44d0735f0e4151c46a38fc93112a3826, type: 3}
+  - tankPawnPrefab: {fileID: 6988888753324529874, guid: 497193fbcac40ae4d9b20d1c413fc9c1, type: 3}
   - aiAggresivePrefab: {fileID: 599655179068784343, guid: 5d11a63fc6136dc4dad8d44f982c1826, type: 3}
   - aiCowardlyPrefab: {fileID: 14179078561726432, guid: f55f1cb1438f0a845be6cbf03aadf403, type: 3}
   - aiObservantPrefab: {fileID: 5036364862087452837, guid: 61782fe4374cac74cba6ab1c8750c926, type: 3}
   - aiSurvivorPrefab: {fileID: 3054185478599643221, guid: 6fa871fa65f1df24db8afc5721e269bc, type: 3}
-  - myCameraPrefab: {fileID: 775606258840984800, guid: dff716e017e329246888b2b385793c28, type: 3}
   - mapGenerator: {instanceID: 0}
   - TitleScreenStateObject: {instanceID: 0}
   - MainMenuStateObject: {instanceID: 0}
