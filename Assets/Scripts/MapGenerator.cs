@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using TMPro;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -17,20 +18,11 @@ public class MapGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (isMapOfTheDay)
-        {
-            mapSeed = DateToInt(DateTime.Now.Date);
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Test map generation with keypress
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            GenerateMap();
-        }
     }
 
     // Returns a random room
@@ -38,12 +30,35 @@ public class MapGenerator : MonoBehaviour
     {
         return gridPrefabs[UnityEngine.Random.Range(0, gridPrefabs.Length)];
     }
-
+    
     public void GenerateMap()
     {
+        if (isMapOfTheDay)
+        {
+            mapSeed = DateToInt(DateTime.Now.Date);
+            Debug.Log("Date to int is.. " + DateTime.Now.Date);
+            Debug.Log("DateTime.Now is.. " + DateTime.Now);
+            Debug.Log("is map of the day.. " + mapSeed);
+        }
+        if (isMapOfTheDay == false)
+        {
+            // Set our map seed
+            if (mapSeed == 0)
+            {
+                //UnityEngine.Random.InitState(mapSeed);
+#pragma warning disable CS0618 // Type or member is obsolete
+                mapSeed = UnityEngine.Random.seed;
+#pragma warning restore CS0618 // Type or member is obsolete
+                Debug.Log("map seed is... " + mapSeed);
+            }
+            else
+            {
+                //UnityEngine.Random.InitState(mapSeed);
+                Debug.Log("map seed is... " + mapSeed);
+            }
+        }
         // Set our map seed
-        //UnityEngine.Random.InitState(mapSeed);
-
+        UnityEngine.Random.InitState(mapSeed);
         // Clear out the grid - "column" is our X, "row" is our Y
         grid = new Room[collums, rows];
 
@@ -56,7 +71,9 @@ public class MapGenerator : MonoBehaviour
                 // Figure out the location and save that location in new local variables 
                 float xPosition = roomWidth * currentCol;
                 float zPosition = roomHeight * currentRow;
+#pragma warning disable IDE0090 // Use 'new(...)'
                 Vector3 newPosition = new Vector3(xPosition, 0.0f, zPosition);
+#pragma warning restore IDE0090 // Use 'new(...)'
 
                 // Create/spawn a new grid/tile at the appropriate location
                 GameObject tempRoomObj = Instantiate(RandomRoomPrefab(), newPosition, Quaternion.identity) as GameObject;
@@ -107,7 +124,7 @@ public class MapGenerator : MonoBehaviour
                 // Save it to the grid array
                 grid[currentCol, currentRow] = tempRoom;
             }
-        }
+        }    
     }
     public int DateToInt(DateTime dateToUse)
     {

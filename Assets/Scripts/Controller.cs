@@ -21,7 +21,7 @@ public abstract class Controller : MonoBehaviour
         if (pawn.name == "PlayerPawn")
         {
             scoreText = pawn.GetComponentInChildren<Text>();
-            Debug.Log(this.scoreText.name);
+            //Debug.Log(this.scoreText.name);
         }
     }
 
