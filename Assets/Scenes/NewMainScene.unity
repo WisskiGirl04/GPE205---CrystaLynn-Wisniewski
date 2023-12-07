@@ -1468,12 +1468,9 @@ MonoBehaviour:
   GameplayStateObject: {fileID: 1833760995}
   GameOverScreenStateObject: {fileID: 930217709}
   MapOfDay: {fileID: 1780297906}
-  Seed: {fileID: 0}
   SeedTwo: {fileID: 0}
-  SFXVolume: {fileID: 0}
-  MusicVolume: {fileID: 0}
-  InputField: {fileID: 0}
-  InputFieldEditor: {fileID: 0}
+  SFXVolume: {fileID: 632386621}
+  MusicVolume: {fileID: 2111435280}
   MapOfDayToggleChildren:
   - {fileID: 110106773}
   - {fileID: 687513791}
@@ -2406,12 +2403,36 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1068304133}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
+  m_MaxValue: 10
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3077080859480868702, guid: 497193fbcac40ae4d9b20d1c413fc9c1, type: 3}
+        m_TargetAssemblyTypeName: TankShooter, Assembly-CSharp
+        m_MethodName: OnSFXVolumeChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3590907488225077027, guid: 95e4fd3e40308ad41bda35c0f0397590, type: 3}
+        m_TargetAssemblyTypeName: TankShooter, Assembly-CSharp
+        m_MethodName: OnSFXVolumeChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &676068731
 GameObject:
   m_ObjectHideFlags: 0

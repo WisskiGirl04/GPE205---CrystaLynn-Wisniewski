@@ -6,7 +6,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
-using UnityEditor.UI;
 using UnityEditor.Build.Content;
 
 public class OptionsState : MonoBehaviour
@@ -20,6 +19,8 @@ public class OptionsState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         if(GameManager.instance.currentState == GameManager.GameState.OptionsScreenState)
         {
 
@@ -85,12 +86,6 @@ public class OptionsState : MonoBehaviour
                     Debug.Log("if statement started");
                     GameManager.instance.SeedTwo.text = textAreaChild.GetComponent<TextMeshProUGUI>().text;
                     Debug.Log(" ''" + GameManager.instance.SeedTwo.text + "'' ");
-
-                    //GameManager.instance.GetComponent<MapGenerator>().mapSeed = very.ConvertTo(v);      - testing
-                    int v = int.Parse(GameManager.instance.SeedTwo.text);
-                    GameManager.instance.GetComponent<MapGenerator>().mapSeed = v;  // input string was not in a correct format?
-                    Debug.Log("mapSeed is ........ " + GameManager.instance.GetComponent<MapGenerator>().mapSeed);
-
                     if (GameManager.instance.SeedTwo.text == null)
                     {
                         Debug.Log("SeedTwo text is null");
@@ -114,12 +109,6 @@ public class OptionsState : MonoBehaviour
         }
     }
 
- 
-    
-    
-    
-    
-    
     
     
     

@@ -49,13 +49,9 @@ public class GameManager : MonoBehaviour
     public GameObject GameOverScreenStateObject;
 
     public UnityEngine.UI.Toggle MapOfDay;
-    public Text Seed;
     public TextMeshProUGUI SeedTwo;
     public UnityEngine.UI.Slider SFXVolume;
     public UnityEngine.UI.Slider MusicVolume;
-    public InputField InputField;
-    public InputFieldEditor InputFieldEditor;
-    public InputEvent InputEvent;
 
     public GameObject[] MapOfDayToggleChildren;
     public GameObject[] SeedInputChildren;
@@ -111,86 +107,6 @@ public class GameManager : MonoBehaviour
                 //Debug.Log("game object " + Obj.name + " to allObjects list in Game Manager script.");
             }
         }
-    //    NewMethod();
-    }
-
-    private void NewMethod()
-    {
-        if (MapOfDay.isOn == true)
-        {
-            foreach (GameObject textAreaChild in TextAreaChildren)
-            {
-                if (textAreaChild.name == "Seed Text")
-                {
-                    textAreaChild.SetActive(false);
-                }
-            }
-        }
-        if (MapOfDay.isOn == false)
-        {
-            foreach (GameObject toggleChild in MapOfDayToggleChildren)
-            {
-                if (toggleChild.GetComponent<Text>() != null)
-                {
-                    Debug.Log("Toggle children that are Text: " + toggleChild.GetComponentInChildren<Text>().name);
-                }
-                if (toggleChild.name == "Random x Player Seed Input")
-                {
-                    foreach (GameObject inputFieldChild in SeedInputChildren)
-                    {
-                        if (inputFieldChild.GetComponent<Text>() != null)
-                        {
-                            Debug.Log("Input children that are Text: " + inputFieldChild.GetComponentInChildren<Text>().name);
-                        }
-                        Debug.Log("inputField Children : " + inputFieldChild.name);
-                        if (inputFieldChild.name == "Text Area")
-                        {
-                            if (Seed == null)
-                            {
-                                Debug.Log("seed is still null???");
-                            }
-                            foreach (GameObject textAreaChild in TextAreaChildren)
-                            {
-                                if (textAreaChild.GetComponent<Text>() != null)
-                                {
-                                    Debug.Log("Text Area children that are Text: " + textAreaChild.GetComponentInChildren<Text>().name);
-                                }
-                                Debug.Log(textAreaChild.name);
-                                if (textAreaChild.name == "Seed Text")
-                                {
-                                    textAreaChild.SetActive(true);
-                                    Debug.Log(textAreaChild.GetComponents<TextMeshProUGUI>());
-                                    SeedTwo = textAreaChild.GetComponent<TextMeshProUGUI>();
-                                    Debug.Log(SeedTwo.text);
-                                    if (SeedTwo.text != textAreaChild.GetComponent<TextMeshProUGUI>().text)
-                                    {
-                                        SeedTwo.text = textAreaChild.GetComponent<TextMeshProUGUI>().text;
-                                        Debug.Log(SeedTwo.text);
-                                        if (SeedTwo.text == "0")
-                                        {
-
-                                        }
-                                        if (SeedTwo.text == null)
-                                        {
-
-                                        }
-                                        if (SeedTwo.text != null && SeedTwo.text != "0")
-                                        {
-
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public void OnValueChanged()
-    {
-
     }
 
     public void SetMapOfDay()
