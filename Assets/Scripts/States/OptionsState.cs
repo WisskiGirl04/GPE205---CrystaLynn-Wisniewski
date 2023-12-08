@@ -109,10 +109,23 @@ public class OptionsState : MonoBehaviour
         }
     }
 
-    
-    
-    
-    
+    public void OnMultiplayercChange()
+    {
+        if (GameManager.instance.Multiplayer.isOn == false)
+        {
+            GameManager.instance.isMultiplayer = false;
+            Debug.Log("Multiplayer is off");
+        }
+        if (GameManager.instance.Multiplayer.isOn == true)
+        {
+            GameManager.instance.isMultiplayer = true;
+            Debug.Log("Multiplayer is on");
+        }
+    }
+
+
+
+
     /*   This is what I can use for toggle functions that will be called off of things like toggle buttons and input field changes
     public void OnMapOfDayChange()
     {

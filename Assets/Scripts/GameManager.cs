@@ -36,9 +36,13 @@ public class GameManager : MonoBehaviour
     public int playersAmount;
     public PawnSpawnPoint[] spawnPoints;
     public MapGenerator mapGenerator;
+    public bool isMultiplayer;
 
     public List<GameObject> allObjects;
     public bool destroyAllObjects;
+
+    public Camera cameraOne;
+    public Camera cameraTwo;
 
     // Game States
     public GameObject TitleScreenStateObject;
@@ -49,6 +53,7 @@ public class GameManager : MonoBehaviour
     public GameObject GameOverScreenStateObject;
 
     public UnityEngine.UI.Toggle MapOfDay;
+    public UnityEngine.UI.Toggle Multiplayer;
     public TextMeshProUGUI SeedTwo;
     public UnityEngine.UI.Slider SFXVolume;
     public UnityEngine.UI.Slider MusicVolume;
@@ -138,6 +143,25 @@ public class GameManager : MonoBehaviour
         Controller controllerOne = playerOne.GetComponent<Controller>();
         Pawn pawnOne = tankOne.GetComponent<Pawn>();
 
+        if (playersAmount == 1)
+        {
+                tankOne.GetComponentInChildren<Camera>().name = tankOne.GetComponentInChildren<Camera>().name + playersAmount;
+                Debug.Log(tankOne.GetComponentInChildren<Camera>().name);
+                Debug.Log(tankOne.GetComponentInChildren<Camera>().GetComponent<Camera>().rect);
+                cameraOne = tankOne.GetComponentInChildren<Camera>();
+                Debug.Log(cameraOne.name);
+                //tankOne.GetComponentInChildren<Camera>().GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);
+        }
+        if (playersAmount == 2)
+        { 
+            tankOne.GetComponentInChildren<Camera>().name = tankOne.GetComponentInChildren<Camera>().name + playersAmount;
+            Debug.Log(tankOne.GetComponentInChildren<Camera>().name);
+            cameraTwo = tankOne.GetComponentInChildren<Camera>();
+            Debug.Log(cameraTwo.name);
+            cameraOne.GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);
+            cameraTwo.GetComponent<Camera>().rect = new Rect(0.5f, 0, 1, 1);
+        }
+
         controllerOne.pawn = pawnOne;
         pawnOne.controller = controllerOne;
 
@@ -148,8 +172,8 @@ public class GameManager : MonoBehaviour
 
         tankOne.AddComponent<PowerUpManager>();
 
-        playerOne.name = "PlayerController";
-        tankOne.name = "PlayerPawn";
+        playerOne.name = "PlayerController " + playersAmount;
+        tankOne.name = "PlayerPawn " + playersAmount;
 
         // Connect the components
         controllerOne.pawn = pawnOne;

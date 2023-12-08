@@ -22,6 +22,13 @@ public class GamePlayState : MonoBehaviour
     {
         if (GameManager.instance.currentState != GameManager.GameState.GameplayState && GameManager.instance.destroyAllObjects == true)
         {
+            Camera tempCamera = FindObjectOfType<Camera>();
+            Debug.Log(tempCamera.name);
+            if (tempCamera.name == "Camera for display renderer")
+            {
+                //tempCamera = Camera.main;
+                Destroy(tempCamera);
+            }
             Debug.Log("calling foreach loop for destroying objects. ");
             foreach (GameObject Obj in GameManager.instance.allObjects)
             {
@@ -48,6 +55,10 @@ public class GamePlayState : MonoBehaviour
                     if (GameManager.instance.playersAmount <= 0)
                     {
                         GameManager.instance.SpawnPlayer(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
+                        if (GameManager.instance.isMultiplayer == true)
+                        {
+                            GameManager.instance.SpawnPlayer(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
+                        }
                     }
                 }
                 GameManager.instance.SpawnAggressiveAI(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
