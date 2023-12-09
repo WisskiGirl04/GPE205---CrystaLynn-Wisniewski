@@ -12,16 +12,18 @@ public abstract class Controller : MonoBehaviour
 
     public float score;
     public float scoreToAdd;
+    public float playersLives;
 
+    public Text livesText;
     public Text scoreText;
     // Start is called before the first frame update
     public virtual void Start()
     {
-        //this.scoreText.text = this.score.ToString();
-        if (pawn.name == "PlayerPawn")
+        this.scoreText.text = this.score.ToString();
+        if (pawn.GetComponent<PlayerController>() == true)
         {
             scoreText = pawn.GetComponentInChildren<Text>();
-            //Debug.Log(this.scoreText.name);
+            Debug.Log(this.scoreText.name);
         }
     }
 
@@ -38,7 +40,7 @@ public abstract class Controller : MonoBehaviour
     public virtual void AddToScore(float scoreToAdd)
     {
         this.score += scoreToAdd;
-        this.scoreText.text = this.score.ToString();
+        this.scoreText.text = score.ToString();
     }
 
 }

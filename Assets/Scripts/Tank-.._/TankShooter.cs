@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class TankShooter : Shooter
 {
@@ -58,7 +59,7 @@ public class TankShooter : Shooter
     }
     public void OnSFXVolumeChange()
     {
-        gameObject.GetComponent<AudioSource>().volume = GameManager.instance.SFXVolume.value / GameManager.instance.SFXVolume.maxValue;
+        
         Debug.Log("SFX Volume is " + GameManager.instance.SFXVolume.value + " .... and audio source volume is " + gameObject.GetComponent<AudioSource>().volume);
     }
 }

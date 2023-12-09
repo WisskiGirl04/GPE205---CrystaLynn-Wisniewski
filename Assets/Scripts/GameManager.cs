@@ -4,9 +4,9 @@ using Unity.VisualScripting;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
-using UnityEditor.UI;
 using UnityEngine.UIElements;
 using UnityEditor;
+using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI SeedTwo;
     public UnityEngine.UI.Slider SFXVolume;
     public UnityEngine.UI.Slider MusicVolume;
+    //public AudioMixer audioMixer;
 
     public GameObject[] MapOfDayToggleChildren;
     public GameObject[] SeedInputChildren;
@@ -172,8 +173,8 @@ public class GameManager : MonoBehaviour
 
         tankOne.AddComponent<PowerUpManager>();
 
-        playerOne.name = "PlayerController " + playersAmount;
-        tankOne.name = "PlayerPawn " + playersAmount;
+        playerOne.name = "PlayerController ";
+        tankOne.name = "PlayerPawn ";
 
         // Connect the components
         controllerOne.pawn = pawnOne;
@@ -333,71 +334,7 @@ public class GameManager : MonoBehaviour
                     gameObject.GetComponent<MapGenerator>().isMapOfTheDay = true;
                 }
             }
-        }  /*
-        if (MapOfDay.isOn == false)
-        {
-
-            gameObject.GetComponent<MapGenerator>().isMapOfTheDay = false;
-
-            foreach (GameObject toggleChild in MapOfDayToggleChildren)
-            {
-                if (toggleChild.GetComponent<Text>() != null)
-                {
-                    Debug.Log("Toggle children that are Text: " + toggleChild.GetComponentInChildren<Text>().name);
-                }
-                if (toggleChild.name == "Random x Player Seed Input")
-                {
-                    foreach (GameObject inputFieldChild in SeedInputChildren)
-                    {
-                        if (inputFieldChild.GetComponent<Text>() != null)
-                        {
-                            Debug.Log("Input children that are Text: " + inputFieldChild.GetComponentInChildren<Text>().name);
-                        }
-                        Debug.Log("inputField Children : " + inputFieldChild.name);
-                        if (inputFieldChild.name == "Text Area")
-                        {
-                            if (Seed == null)
-                            {
-                                Debug.Log("seed is still null???");
-                            }
-                            foreach (GameObject textAreaChild in TextAreaChildren)
-                            {
-                                if (textAreaChild.GetComponent<Text>() != null)
-                                {
-                                    Debug.Log("Text Area children that are Text: " + textAreaChild.GetComponentInChildren<Text>().name);
-                                }
-                                Debug.Log(textAreaChild.name);
-                                if (textAreaChild.name == "Seed Text")
-                                {
-                                    textAreaChild.SetActive(true);
-                                    Debug.Log(textAreaChild.GetComponents<TextMeshProUGUI>());
-                                    SeedTwo = textAreaChild.GetComponent<TextMeshProUGUI>();
-                                    Debug.Log(SeedTwo.text);
-                                    if (SeedTwo.text != textAreaChild.GetComponent<TextMeshProUGUI>().text)
-                                    {
-                                        SeedTwo.text = textAreaChild.GetComponent<TextMeshProUGUI>().text;
-                                        Debug.Log(SeedTwo.text);
-                                        if (SeedTwo.text == "0")
-                                        {
-                                            Debug.Log("Randomly generate.");
-                                        }
-                                        if (SeedTwo.text == null)
-                                        {
-                                            Debug.Log("Set isMapofDay to");
-                                        }
-                                        if (SeedTwo.text != null && SeedTwo.text != "0")
-                                        {
-
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        */
+        }  
     }
 
     public void ActivateCreditsScreen()

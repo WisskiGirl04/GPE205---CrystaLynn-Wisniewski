@@ -76,7 +76,6 @@ public class OptionsState : MonoBehaviour
                 textAreaChild.SetActive(true);
                 //Debug.Log(textAreaChild.GetComponents<TextMeshProUGUI>());    - testing
                 GameManager.instance.SeedTwo = textAreaChild.GetComponent<TextMeshProUGUI>();
-                //GameManager.instance.SeedTwo.text = textAreaChild.GetComponent<TextMeshProUGUI>().text;      - testing
 
                 GameManager.instance.SeedTwo.text = "0";
 

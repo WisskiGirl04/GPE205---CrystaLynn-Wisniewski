@@ -30,19 +30,22 @@ public class AIController : Controller
     // Start is called before the first frame update
     public override void Start()
     {
-        // If(when) we have a GameManager
-        if (GameManager.instance != null)
+        if (gameObject.GetComponent<Pawn>() != null)
         {
-            // And we have an ai enemy(ies) list
-            if (GameManager.instance.aiList != null)
+            // If(when) we have a GameManager
+            if (GameManager.instance != null)
             {
-                // Add the PlayerControllerObject that is being created to the list
-                GameManager.instance.aiList.Add(this);
-                // the .gameObject is because i made this a gameobject list in game manager
+                // And we have an ai enemy(ies) list
+                if (GameManager.instance.aiList != null)
+                {
+                    // Add the PlayerControllerObject that is being created to the list
+                    GameManager.instance.aiList.Add(this);
+                    // the .gameObject is because i made this a gameobject list in game manager
+                }
             }
+            base.Start();
+            ChangeState(AIState.Patrol);
         }
-        base.Start();
-        ChangeState(AIState.Patrol);
     }
 
     // Update is called once per frame
@@ -60,75 +63,80 @@ public class AIController : Controller
         {
             Destroy(gameObject);
         }
-        switch (currentState)
+        if (pawn != null)
         {
-            case AIState.Idle:
-                // Do work
-                DoIdleState();
-                // Check for transitions
-                if (IsCanSee(target))
-                {
-                    ChangeState(AIState.Seek);
-                }
-                /*if (!IsHasTarget() && IsDistanceLessThan(target, 10))
-                {
-                    ChangeState(AIState.Seek);
-                }
-                else
-                {
-                    ChangeState(AIState.TargetPlayerOne);
-                }*/
-                break;
-            case AIState.Seek:
-                // Do work
-                // Check for transitions
-                if (IsHasTarget() && IsDistanceLessThan(target, 10))
-                {
-                    ChangeState(AIState.Attack);
-                }
-                break;
-/*            case AIState.Flee:
-                // Do work
-                DoFleeState();
-                // Check for transition
-                if (IsHasTarget() && IsDistanceLessThan(target, 10))
-                {
-                    //ChangeState(AIState.Idle);
-                    ChangeState(AIState.Patrol);
-                }
-                else
-                {
-                    //ChangeState(AIState.TargetPlayerOne);
-                    ChangeState(AIState.Idle);
-                }
-                break;*/
-            case AIState.SeekClosestPawn:
-                // Do Work
-                DoPawnSeekState();
-                break;
+
+
+            switch (currentState)
+            {
+                case AIState.Idle:
+                    // Do work
+                    DoIdleState();
+                    // Check for transitions
+                    if (IsCanSee(target))
+                    {
+                        ChangeState(AIState.Seek);
+                    }
+                    /*if (!IsHasTarget() && IsDistanceLessThan(target, 10))
+                    {
+                        ChangeState(AIState.Seek);
+                    }
+                    else
+                    {
+                        ChangeState(AIState.TargetPlayerOne);
+                    }*/
+                    break;
+                case AIState.Seek:
+                    // Do work
+                    // Check for transitions
+                    if (IsHasTarget() && IsDistanceLessThan(target, 10))
+                    {
+                        ChangeState(AIState.Attack);
+                    }
+                    break;
+                /*            case AIState.Flee:
+                                // Do work
+                                DoFleeState();
+                                // Check for transition
+                                if (IsHasTarget() && IsDistanceLessThan(target, 10))
+                                {
+                                    //ChangeState(AIState.Idle);
+                                    ChangeState(AIState.Patrol);
+                                }
+                                else
+                                {
+                                    //ChangeState(AIState.TargetPlayerOne);
+                                    ChangeState(AIState.Idle);
+                                }
+                                break;*/
+                case AIState.SeekClosestPawn:
+                    // Do Work
+                    DoPawnSeekState();
+                    break;
                 case AIState.Attack:
-                // Do work
-                if (IsHasTarget())
-                {
-                    DoAttackState();
-                }
-                break;
-            case AIState.Patrol:
-                // Do work
-                DoPatrolState();
-                break;
-            case AIState.TargetPlayerOne:
-                DoChooseTargetState();
-                ChangeState(AIState.Seek);
-                break;
-            case AIState.TargetClosestPawn:
-                DoTargetClosest();
-                ChangeState(AIState.SeekClosestPawn);
-                break;
+                    // Do work
+                    if (IsHasTarget())
+                    {
+                        DoAttackState();
+                    }
+                    break;
+                case AIState.Patrol:
+                    // Do work
+                    DoPatrolState();
+                    break;
+                case AIState.TargetPlayerOne:
+                    DoChooseTargetState();
+                    ChangeState(AIState.Seek);
+                    break;
+                case AIState.TargetClosestPawn:
+                    DoTargetClosest();
+                    ChangeState(AIState.SeekClosestPawn);
+                    break;
 
 
-                //IsCanSee(target)
-                //IsCanHear(target)
+                    //IsCanSee(target)
+                    //IsCanHear(target)
+            }
         }
     }
 
@@ -226,7 +234,7 @@ public class AIController : Controller
             //...
             // if statement keeps coming back as not haveing an instance of an object for the object reference
             //if(this.gameObject.GetComponent<Pawn>().GetComponent<Health>().currentHealth > 0)
-            Seek(patrolPoints[currentPatrolPoint]);
+                Seek(patrolPoints[currentPatrolPoint]);
             // If we are close enough, then increment to next waypoint
             if (Vector3.Distance(pawn.transform.position, patrolPoints[currentPatrolPoint].position) < patrolPointStopDistance)
             {
