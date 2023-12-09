@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor.UI;
 using UnityEditor;
 using UnityEngine.Audio;
 
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI SeedTwo;
     public UnityEngine.UI.Slider SFXVolume;
     public UnityEngine.UI.Slider MusicVolume;
-    //public AudioMixer audioMixer;
+    public AudioMixer audioMixer;
 
     public GameObject[] MapOfDayToggleChildren;
     public GameObject[] SeedInputChildren;
