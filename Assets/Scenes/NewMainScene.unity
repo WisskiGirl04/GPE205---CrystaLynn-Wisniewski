@@ -2283,7 +2283,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 10
   m_WholeNumbers: 1
-  m_Value: 0
+  m_Value: 5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -2299,8 +2299,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3590907488225077027, guid: 95e4fd3e40308ad41bda35c0f0397590, type: 3}
-        m_TargetAssemblyTypeName: TankShooter, Assembly-CSharp
+      - m_Target: {fileID: 411788001}
+        m_TargetAssemblyTypeName: OptionsState, Assembly-CSharp
         m_MethodName: OnSFXVolumeChange
         m_Mode: 1
         m_Arguments:
@@ -3201,7 +3201,7 @@ RectTransform:
   m_Father: {fileID: 1365873711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3377,8 +3377,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 66329008}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3432,7 +3432,7 @@ GameObject:
   - component: {fileID: 1108760366}
   - component: {fileID: 1108760365}
   m_Layer: 0
-  m_Name: Panel
+  m_Name: Volume Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
