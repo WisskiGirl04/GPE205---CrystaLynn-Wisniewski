@@ -57,9 +57,5 @@ public class TankShooter : Shooter
             nextTimeCanShoot = Time.time + secondsPerShot;
         }
     }
-    public void OnSFXVolumeChange()
-    {
-        
-        Debug.Log("SFX Volume is " + GameManager.instance.SFXVolume.value + " .... and audio source volume is " + gameObject.GetComponent<AudioSource>().volume);
-    }
+
 }

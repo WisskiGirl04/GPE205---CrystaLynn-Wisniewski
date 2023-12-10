@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 using UnityEditor.Build.Content;
+using UnityEngine.Audio;
 
 public class OptionsState : MonoBehaviour
 {
@@ -121,7 +122,13 @@ public class OptionsState : MonoBehaviour
             Debug.Log("Multiplayer is on");
         }
     }
-
+    public void OnSFXVolumeChange()
+    {
+        float sfx;
+        float music;
+        GameManager.instance.audioMixer.SetFloat("sfxVolume", GameManager.instance.SFXVolume.value );
+        Debug.Log("SFX Volume is " + GameManager.instance.SFXVolume.value + " .... and audio source volume is " + GameManager.instance.audioMixer.GetFloat("sfxVolume", out sfx) + sfx);
+    }
 
 
 
