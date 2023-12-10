@@ -64,8 +64,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.014277883, y: 0.8733265, z: -0.025643654, w: -0.48625043}
   m_LocalPosition: {x: 4.2599783, y: 0.1154857, z: 1.3906491}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5992806577231730324}
   m_Father: {fileID: 0}
@@ -146,6 +146,7 @@ MonoBehaviour:
   fireRate: 1
   noise: {fileID: 0}
   noiseMakerVolume: 0
+  controller: {fileID: 0}
 --- !u!54 &2942929122150771379
 Rigidbody:
   m_ObjectHideFlags: 0

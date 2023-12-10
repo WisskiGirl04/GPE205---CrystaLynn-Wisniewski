@@ -155,15 +155,32 @@ public class GameManager : MonoBehaviour
                 //tankOne.GetComponentInChildren<Camera>().GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);
         }
         if (playersAmount == 2)
-        { 
+        {
             tankOne.GetComponentInChildren<Camera>().name = tankOne.GetComponentInChildren<Camera>().name + playersAmount;
             Debug.Log(tankOne.GetComponentInChildren<Camera>().name);
             cameraTwo = tankOne.GetComponentInChildren<Camera>();
             Debug.Log(cameraTwo.name);
             cameraOne.GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);
             cameraTwo.GetComponent<Camera>().rect = new Rect(0.5f, 0, 1, 1);
+            
+            TextMeshProUGUI[] tankTextMeshArray = tankOne.GetComponentsInChildren<TextMeshProUGUI>();
+            UnityEngine.UI.Image[] panelImage = tankOne.GetComponentsInChildren<UnityEngine.UI.Image>();
+            foreach (UnityEngine.UI.Image child in panelImage)
+            {
+                if (child.name == "Panel")
+                {
+                    Debug.Log(child.rectTransform.anchoredPosition);
+                    child.rectTransform.anchoredPosition = new Vector2(165, 228);
+                }
+            }
+            foreach (TextMeshProUGUI child in tankTextMeshArray)
+            {
+                Debug.Log(child.name);
+                Vector2 originalTransform = child.rectTransform.anchoredPosition;
+                    Debug.Log("grabbed score text");
+                    child.rectTransform.anchoredPosition = new Vector2(531, originalTransform.y);
+            }
         }
-
         controllerOne.pawn = pawnOne;
         pawnOne.controller = controllerOne;
 
@@ -174,8 +191,9 @@ public class GameManager : MonoBehaviour
 
         tankOne.AddComponent<PowerUpManager>();
 
-        playerOne.name = "PlayerController ";
-        tankOne.name = "PlayerPawn ";
+        playerOne.name = "PlayerController";
+        tankOne.name = "PlayerPawn";
+        //playerOne.GetComponent<PlayerController>().SetScoreText();
 
         // Connect the components
         controllerOne.pawn = pawnOne;

@@ -19,9 +19,9 @@ public abstract class Controller : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
-        this.scoreText.text = this.score.ToString();
-        if (pawn.GetComponent<PlayerController>() == true)
+        if (pawn.controller.name == "PlayerController")
         {
+            Debug.Log("Called in controller");
             scoreText = pawn.GetComponentInChildren<Text>();
             Debug.Log(this.scoreText.name);
         }
