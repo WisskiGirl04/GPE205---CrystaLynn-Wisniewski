@@ -33,7 +33,15 @@ public class TankShooter : Shooter
             Debug.Log("Shooting time!");
             // Instantiate the new bullet
             GameObject newBullet = Instantiate(bulletPrefab, firepointTransform.position, firepointTransform.rotation) as GameObject;
-            gameObject.GetComponent<AudioSource>().Play();
+            AudioSource[] sourcesArray = gameObject.GetComponents<AudioSource>();
+            foreach (AudioSource source in sourcesArray)
+            {
+                //Debug.Log(source.clip.name);
+                if (source.clip.name == "tank firing")
+                {
+                    source.Play();
+                }
+            }
             // Get the DamageOnHit component from the new bullet
             DamageOnHit doh = newBullet.GetComponent<DamageOnHit>();
             // Check for if the newBullet has the component

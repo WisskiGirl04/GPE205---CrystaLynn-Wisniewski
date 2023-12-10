@@ -31,6 +31,15 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float amount, Pawn source)
     {
+        AudioSource[] sourcesArray = gameObject.GetComponents<AudioSource>();
+        foreach (AudioSource sounds in sourcesArray)
+        {
+            Debug.Log(sounds.clip.name);
+            if (sounds.clip.name == "Bullet Hit")
+            {
+                sounds.Play();
+            }
+        }
         currentHealth = currentHealth - amount;
         Debug.Log(amount + " damage done to " + this.gameObject.name + " by " + source.name);
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -58,7 +67,6 @@ public class Health : MonoBehaviour
             scoreToAdd = source.controller.scoreToAdd;
             source.controller.AddToScore(scoreToAdd);
             Debug.Log(gameObject.name);
-            Debug.Log(this.gameObject.name);
             Debug.Log(gameObject.GetComponent<Pawn>().controller.name);
             if (this.gameObject.GetComponent<Pawn>().controller.name == "PlayerController")
             {
