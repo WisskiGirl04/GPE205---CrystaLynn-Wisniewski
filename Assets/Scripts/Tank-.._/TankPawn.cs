@@ -17,10 +17,10 @@ public class TankPawn : Pawn
         if (gameObject.name != "SurvivorAI" && gameObject.name != "ObservantAI" && gameObject.name != "CowardlyAI" && gameObject.name != "AggressiveAI")
         {
             Debug.Log("'tankPawn in player controller :" + gameObject.name);
-            GameObject cameraOne = FindObjectOfType<Camera>().gameObject;
+            GameObject cameraOne = gameObject.GetComponentInChildren<Camera>().gameObject;//FindObjectOfType<Camera>().gameObject;
             float positionX = gameObject.transform.position.x;
             float positionY = gameObject.transform.position.y;
-            positionY = positionY + 30f;
+            positionY = positionY + 24f;
             float positionZ = gameObject.transform.position.z;
             cameraPosition = new Vector3(positionX, positionY, positionZ);
 

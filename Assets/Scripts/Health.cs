@@ -15,18 +15,47 @@ public class Health : MonoBehaviour
 
     public Image healthCircle;
 
+
+    public AudioClip pickupClip;
+    public AudioSource bulletMissed;
+    private float destroyDelay;
+    private float destroyingTime;
+    private float ogTriggerCount;
+    private float nextTriggerCount;
+
     // Start is called before the first frame update
     void Start()
     {
-        // 'Clamp' the current Health so 0 <= currentHealth >= maxHealth
-        currentHealth = Mathf.Clamp (currentHealth, 0, maxHealth);
-        // Set current Health to max Health
-        currentHealth = maxHealth;
+        AudioSource[] sourcesArray = gameObject.GetComponents<AudioSource>();
+        foreach (AudioSource sounds in sourcesArray)
+        {
+            Debug.Log(sounds.clip.name);
+            if (sounds.clip.name == "Tank Death")
+            {
+                bulletMissed = sounds;
+                // 'Clamp' the current Health so 0 <= currentHealth >= maxHealth
+                currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+                // Set current Health to max Health
+                currentHealth = maxHealth;
+                destroyDelay = sounds.clip.length / 2;
+                ogTriggerCount = 0;
+                nextTriggerCount = 0;
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (nextTriggerCount != 0 && ogTriggerCount < nextTriggerCount)
+        {
+            if (Time.time >= destroyingTime)
+            {
+                Debug.Log("Time is " + Time.time + " and Destroying time!");
+                ogTriggerCount++;
+                Destroy(gameObject);
+            }
+        }
     }
 
     public void TakeDamage(float amount, Pawn source)
@@ -61,13 +90,29 @@ public class Health : MonoBehaviour
 
     public void Die (Pawn source)
     {
+        if (this.gameObject.GetComponent<Pawn>().controller.name != "PlayerController")
+        {
+            this.gameObject.GetComponent<Pawn>().controller.gameObject.SetActive(false);
+            //this.gameObject.GetComponent<Controller>().GameObject().SetActive(false);
+        }
         Debug.Log("Uh oh!");
         if (source.controller != null)
         {
+            AudioSource[] sourcesArray = gameObject.GetComponents<AudioSource>();
+            foreach (AudioSource sounds in sourcesArray)
+            {
+                Debug.Log(sounds.clip.name);
+                if (sounds.clip.name == "Tank Death")
+                {
+                    sounds.Play();
+                }
+            }
             scoreToAdd = source.controller.scoreToAdd;
             source.controller.AddToScore(scoreToAdd);
             Debug.Log(gameObject.name);
             Debug.Log(gameObject.GetComponent<Pawn>().controller.name);
+            nextTriggerCount++;
+            destroyingTime = Time.time + destroyDelay;
             if (this.gameObject.GetComponent<Pawn>().controller.name == "PlayerController")
             {
                 GameManager.instance.playersAmount--;
@@ -80,7 +125,7 @@ public class Health : MonoBehaviour
             Debug.Log("Destroy controller next");
             Destroy(this.gameObject.GetComponent<Controller>());
             Debug.Log("Destroy gameObject next");
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
         }
     }
 

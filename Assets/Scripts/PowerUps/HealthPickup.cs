@@ -30,7 +30,7 @@ public class HealthPickup : MonoBehaviour
         {
             if (Time.time >= destroyingTime)
             {
-                Debug.Log("Time is " + Time.time + " and Destroying time!");
+                //Debug.Log("Time is " + Time.time + " and Destroying time!");
                 ogTriggerCount++;
                 Destroy(gameObject);
             }
