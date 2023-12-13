@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
     public Camera cameraOne;
     public Camera cameraTwo;
 
+    AudioSource currentAudio;
+
     // Game States
     public GameObject TitleScreenStateObject;
     public GameObject MainMenuStateObject;
@@ -312,6 +314,7 @@ public class GameManager : MonoBehaviour
         CreditsScreenStateObject.SetActive(false);
         GameplayStateObject.SetActive(false);
         GameOverScreenStateObject.SetActive(false);
+        
     }
 
     public void ActivateTitleScreen()
@@ -322,7 +325,17 @@ public class GameManager : MonoBehaviour
         TitleScreenStateObject.SetActive(true);
         // Do whatever needs to be done when the title screen starts.
         currentState = GameState.TitleScreenState;
+        AudioSource[] sources = gameObject.GetComponentsInChildren<AudioSource>();
+        foreach (AudioSource child in sources)
+        {
+            Debug.Log("audio source children " + child.clip.name);
+            if (child.clip.name == "Epic Menu")
+            {
+                currentAudio = child;
+                child.Play();
 
+            }
+        }
     }
     public void ActivateMainMenuScreen()
     {
@@ -332,6 +345,7 @@ public class GameManager : MonoBehaviour
         MainMenuStateObject.SetActive(true);
         // Do Main menu
         currentState = GameState.MainMenuState;
+        AudioSource[] sources = gameObject.GetComponents<AudioSource>();
     }
     public void ActivateOptionsScreen()
     {
@@ -375,7 +389,28 @@ public class GameManager : MonoBehaviour
         // Activate the Gameplay state
         GameplayStateObject.SetActive(true);
         // Do gameplay state
-        //currentState = GameState.GameplayState;
+        //Debug.Log (currentAudio.name + "is the currentAudio ");
+        if (currentAudio != null)
+        {
+            Debug.Log(currentAudio.clip.name + "is the currentAudio ");
+            Debug.Log("currentAudio != null");
+            if (currentAudio.clip.name == "Epic Menu")
+            {
+                currentAudio.Stop();
+            }
+            AudioSource[] sources = gameObject.GetComponentsInChildren<AudioSource>();
+            foreach (AudioSource child in sources)
+            {
+                Debug.Log("audio source children " + child.clip.name);
+                if (child.clip.name == "Game Music")
+                {
+                    currentAudio = child;
+                    child.Play();
+
+                }
+            }
+        }
+
     }
     public void ActivateGameOverScreen()
     {
@@ -386,4 +421,10 @@ public class GameManager : MonoBehaviour
         // Do game over screen
         currentState = GameState.GameOverState;
     }
+    public void QuitGame()
+    {
+        UnityEditor.EditorApplication.isPlaying = false;    
+        Application.Quit();
+    }
+
 }

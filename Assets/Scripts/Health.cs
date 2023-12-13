@@ -118,9 +118,7 @@ public class Health : MonoBehaviour
                 GameManager.instance.playersAmount--;
                 Debug.Log("Die called, players amount is " + GameManager.instance.playersAmount);
                 GameManager.instance.ActivateGameOverScreen();
-        //        Destroy(this.gameObject.GetComponent<Controller>());
-        //        Destroy(this.gameObject);
-
+                this.gameObject.GetComponent<PlayerController>().currentLives--;
             }
             Debug.Log("Destroy controller next");
             Destroy(this.gameObject.GetComponent<Controller>());

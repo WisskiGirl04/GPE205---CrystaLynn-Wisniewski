@@ -11,6 +11,9 @@ public class PlayerController : Controller
     public KeyCode turboKey;
     public KeyCode shootKey;
 
+    public int startingLives;
+    public int currentLives;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -20,6 +23,7 @@ public class PlayerController : Controller
             // And we have a player(s) list
             if (GameManager.instance.playersList != null)
             {
+                currentLives = startingLives;
                 // Add the PlayerControllerObject that is being created to the list
                 GameManager.instance.playersList.Add(this);
             }
