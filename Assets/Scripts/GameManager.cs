@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using UnityEditor.UI;
 using UnityEditor;
 using UnityEngine.Audio;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerTankPawnPrefab;
     public GameObject aiTankPawnPrefab;
 
-    TankShooter tankShooter;
+    public TankShooter tankShooter;
 
     // AI Personality prefabs
     public GameObject aiAggresivePrefab;
@@ -38,6 +39,9 @@ public class GameManager : MonoBehaviour
     public PawnSpawnPoint[] spawnPoints;
     public MapGenerator mapGenerator;
     public bool isMultiplayer;
+    public int startingLives;
+    public GameObject playerOneCont;
+    public GameObject playerTwoCont;
 
     public List<GameObject> allObjects;
     public bool destroyAllObjects;
@@ -88,6 +92,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        playersAmount = 0;
         mapGenerator = GetComponent<MapGenerator>();
         //mapGenerator.GenerateMap();
         DeactivateAllStates();
@@ -99,14 +104,120 @@ public class GameManager : MonoBehaviour
     {
         // Temp code :
         // here so that player consistently respawns after death for now
-        /*
+        
         if (currentState == GameState.GameplayState)
         {
-            if (playersAmount <= 0)
+            if (aiList.Count < 4)
             {
-                SpawnPlayer(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+                string[] survivingAI = { "AIAggressive", "AICowardly", "AIObservant", "AISurvivor" };
+                foreach (AIController ai in aiList)
+                {
+                    if (ai.name == "AIAggressive Controller")
+                    {
+                        survivingAI[0] = "survivor";
+                    }
+                    if (ai.name == "AICowardly Controller")
+                    {
+                        survivingAI[1] = "survivor";
+                    }
+                    if (ai.name == "AIObservant Controller")
+                    {
+                        survivingAI[2] = "survivor";
+                    }
+                    if (ai.name == "AISurvivor Controller")
+                    {
+                        survivingAI[3] = "survivor";
+                    }
+                }
+                foreach (string survivors in survivingAI)
+                {
+                    if (survivors == "AIAggressive")
+                    {
+                        GameManager.instance.SpawnAggressiveAI(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
+                    }
+                    if (survivors == "AICowardly")
+                    {
+                        GameManager.instance.SpawnCowardlyAI(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
+                    }
+                    if (survivors == "AIObservant")
+                    {
+                        GameManager.instance.SpawnObservantAI(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
+                    }
+                    if (survivors == "AISurvivor")
+                    {
+                        GameManager.instance.SpawnSurvivorAI(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
+                    }
+                }
+
             }
-        } */
+
+            if (isMultiplayer == false)
+            {
+                if (playersAmount < 1)
+                {
+                    if (playerOneCont != null && playerOneCont.GetComponent<PlayerController>().respawnsLeft == 0)
+                    {
+                        playerOneCont.gameObject.SetActive(false);
+                    }
+                    if (playerOneCont != null && playerOneCont.GetComponent<PlayerController>().respawnsLeft > 0)
+                    {
+                        playersAmount++;
+                        SpawnPlayer(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+                    }
+
+                }
+            }
+            if (isMultiplayer == true)
+            {
+                if (playerOneCont != null && playerOneCont.GetComponent<PlayerController>().respawnsLeft == 0)
+                {
+                    playerOneCont.gameObject.SetActive(false);
+                    cameraTwo.rect = new Rect(0, 0, 1, 1);
+                }
+                if (playerTwoCont != null && playerTwoCont.GetComponent<PlayerController>().respawnsLeft == 0)
+                {
+                    playerTwoCont.gameObject.SetActive(false);
+                    cameraOne.rect = new Rect(0, 0, 1, 1);
+                }
+                if (playersAmount < 2)
+                {
+                    if (playerOneCont.gameObject.activeInHierarchy == false)
+                    {
+                        if (playerTwoCont.GetComponent<PlayerController>().respawnsLeft == 1)
+                        {
+                            Debug.Log("GameOver!");
+                            ActivateGameOverScreen();
+                        }
+                    }
+                    if (playerTwoCont.gameObject.activeInHierarchy == false)
+                    {
+                        if (playerOneCont.GetComponent<PlayerController>().respawnsLeft == 1)
+                        {
+                            Debug.Log("GameOver!");
+                            ActivateGameOverScreen();
+                        }
+                    }
+                    if (playerOneCont != null && playerOneCont.GetComponent<PlayerController>().respawnsLeft > 0)
+                    {
+                        if (playerOneCont.GetComponent<PlayerController>().respawnsLeft > playerOneCont.GetComponent<PlayerController>().currentLives)
+                        {
+                            playersAmount++;
+                            Debug.Log("calling respawn on playerOne");
+                            SpawnPlayer(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+                        }
+                    } 
+                    if (playerTwoCont != null && playerTwoCont.GetComponent<PlayerController>().respawnsLeft > 0)
+                    {
+                        if (playerTwoCont.GetComponent<PlayerController>().respawnsLeft > playerTwoCont.GetComponent<PlayerController>().currentLives)
+                        {
+                            playersAmount++;
+                            Debug.Log("calling respawn on playerTwo");
+                            SpawnPlayer(spawnPoints[Random.Range(0, spawnPoints.Length)]);
+                        }
+                    }
+                }
+            }
+        } 
         //Testing Scripting -- allObjects = GameObject.FindGameObjectsWithTag("MyGameObject");
         if (allObjects.Count <= 0)
         {
@@ -114,6 +225,17 @@ public class GameManager : MonoBehaviour
             {
                 allObjects.Add(Obj);
                 //Debug.Log("game object " + Obj.name + " to allObjects list in Game Manager script.");
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            if (currentState == GameState.GameplayState)
+            {
+                OptionsScreenStateObject.SetActive(true);
+            }
+            if (currentState != GameState.GameplayState)
+            {
+                ActivateOptionsScreen();
             }
         }
     }
@@ -137,55 +259,152 @@ public class GameManager : MonoBehaviour
         // Spawn the Player Controller object at (0,0,0) with no rotation
         GameObject playerOne = Instantiate(playerControllerPrefab, Vector3.zero,
             Quaternion.identity) as GameObject;
-
+       
         // Spawn our Tank object
         GameObject tankOne = Instantiate(playerTankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
-        // Debug.Log("Player spawned at " + spawnPoint); 
-        playersAmount++;
+        // Debug.Log("Player spawned at " + spawnPoint);
+        //playersAmount++;
+
+        Debug.Log("playeronecontroller t/f for null : " + playerOneCont);
+        Debug.Log("playertwocontroller t/f for null : " + playerTwoCont);
 
         // Get the Player Controller component and Pawn component
         Controller controllerOne = playerOne.GetComponent<Controller>();
         Pawn pawnOne = tankOne.GetComponent<Pawn>();
+        Debug.Log("players amount is : " + playersAmount);
+        if (playerOneCont != null && playerTwoCont != null)
+        {
+            Destroy(playerOne.gameObject);
+        }
 
         if (playersAmount == 1)
         {
-                tankOne.GetComponentInChildren<Camera>().name = tankOne.GetComponentInChildren<Camera>().name + playersAmount;
-                Debug.Log(tankOne.GetComponentInChildren<Camera>().name);
-                Debug.Log(tankOne.GetComponentInChildren<Camera>().GetComponent<Camera>().rect);
-                cameraOne = tankOne.GetComponentInChildren<Camera>();
-                Debug.Log(cameraOne.name);
-                //tankOne.GetComponentInChildren<Camera>().GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);
+            Debug.Log("spawn player one!");
+            if (playerOneCont != null && playerOneCont.GetComponent<PlayerController>().respawnsLeft > 0)
+            {
+                Destroy(playerOne.gameObject);
+                //playersAmount--;
+                playerOne = playerOneCont;
+                controllerOne = playerOne.GetComponent<Controller>();
+                controllerOne.respawnsLeft--;
+            }
+            playerOneCont = playerOne;
+            tankOne.GetComponentInChildren<Camera>().name = tankOne.GetComponentInChildren<Camera>().name + playersAmount;
+            cameraOne = tankOne.GetComponentInChildren<Camera>();
+            Debug.Log(cameraOne.name);
         }
+
         if (playersAmount == 2)
         {
-            tankOne.GetComponentInChildren<Camera>().name = tankOne.GetComponentInChildren<Camera>().name + playersAmount;
-            Debug.Log(tankOne.GetComponentInChildren<Camera>().name);
-            cameraTwo = tankOne.GetComponentInChildren<Camera>();
-            Debug.Log(cameraTwo.name);
-            cameraOne.GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);
-            cameraTwo.GetComponent<Camera>().rect = new Rect(0.5f, 0, 1, 1);
-            
-            TextMeshProUGUI[] tankTextMeshArray = tankOne.GetComponentsInChildren<TextMeshProUGUI>();
-            UnityEngine.UI.Image[] panelImage = tankOne.GetComponentsInChildren<UnityEngine.UI.Image>();
-            foreach (UnityEngine.UI.Image child in panelImage)
+            Debug.Log("spawn player two!");
+            if (playerTwoCont != null)
             {
-                if (child.name == "Panel")
+                if (playerOneCont.GetComponent<PlayerController>().currentLives < playerOneCont.GetComponent<PlayerController>().respawnsLeft)
                 {
-                    Debug.Log(child.rectTransform.anchoredPosition);
-                    child.rectTransform.anchoredPosition = new Vector2(165, 228);
+                    Debug.Log("respawn player one!");
+                    Destroy(playerOne.gameObject);
+                    //playersAmount--;
+                    playerOne = playerOneCont;
+                    controllerOne = playerOne.GetComponent<Controller>();
+                    tankOne.GetComponentInChildren<Camera>().name = tankOne.GetComponentInChildren<Camera>().name + "1";
+                    cameraOne = tankOne.GetComponentInChildren<Camera>();
+                    cameraOne.GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1); 
+                    controllerOne.respawnsLeft--;
+                    if (cameraTwo != null)
+                    {
+                        cameraOne.GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);
+
+                        cameraTwo.GetComponent<Camera>().rect = new Rect(0.5f, 0, 1, 1);
+                    }
+                    if (cameraTwo == null)
+                    {
+
+                        cameraOne.GetComponent<Camera>().rect = new Rect(0, 0, 1, 1);
+                    }
+                }
+                if (playerTwoCont.GetComponent<PlayerController>().currentLives < playerTwoCont.GetComponent<PlayerController>().respawnsLeft && playerTwoCont.GetComponent<PlayerController>().respawnsLeft > 0)
+                {
+                    Debug.Log("respawn player two!");
+                    //Destroy(playerOne.gameObject);
+                    playerOne = playerTwoCont;
+                    controllerOne = playerOne.GetComponent<Controller>();
+                    tankOne.GetComponentInChildren<Camera>().name = tankOne.GetComponentInChildren<Camera>().name + playersAmount;
+                    cameraTwo = tankOne.GetComponentInChildren<Camera>();
+                    if (cameraOne != null)
+                    {
+                        cameraOne.GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);
+
+                        cameraTwo.GetComponent<Camera>().rect = new Rect(0.5f, 0, 1, 1);
+                    }
+                    if (cameraOne == null)
+                    {
+
+                        cameraTwo.GetComponent<Camera>().rect = new Rect(0, 0, 1, 1);
+                    }
+                    //cameraTwo.GetComponent<Camera>().rect = new Rect(0.5f, 0, 1, 1);
+                    TextMeshProUGUI[] tankTextMeshArray = tankOne.GetComponentsInChildren<TextMeshProUGUI>();
+                    UnityEngine.UI.Image[] panelImage = tankOne.GetComponentsInChildren<UnityEngine.UI.Image>();
+                    foreach (UnityEngine.UI.Image child in panelImage)
+                    {
+                        if (child.name == "Panel")
+                        {
+                            Debug.Log(child.rectTransform.anchoredPosition);
+                            child.rectTransform.anchoredPosition = new Vector2(165, 228);
+                        }
+                    }
+                    foreach (TextMeshProUGUI child in tankTextMeshArray)
+                    {
+                        Debug.Log(child.name);
+                        Vector2 originalTransform = child.rectTransform.anchoredPosition;
+                        child.rectTransform.anchoredPosition = new Vector2(531, originalTransform.y);
+                    }
+                    controllerOne.respawnsLeft--;
+                }
+                if (playerOne == playerOneCont)
+                {
+                    if (playerOneCont != null && playerOneCont.GetComponent<PlayerController>().respawnsLeft == 0)
+                    {
+                        Destroy(tankOne.gameObject);
+                    }
+                }
+                if (playerOne == playerTwoCont)
+                {
+                    if (playerTwoCont != null && playerTwoCont.GetComponent<PlayerController>().respawnsLeft == 0)
+                    {
+                        Destroy(tankOne.gameObject);
+                    }
                 }
             }
-            foreach (TextMeshProUGUI child in tankTextMeshArray)
+            if (playerTwoCont == null)
             {
-                Debug.Log(child.name);
-                Vector2 originalTransform = child.rectTransform.anchoredPosition;
-                    Debug.Log("grabbed score text");
+                tankOne.GetComponentInChildren<Camera>().name = tankOne.GetComponentInChildren<Camera>().name + playersAmount;
+                cameraTwo = tankOne.GetComponentInChildren<Camera>();
+                Debug.Log(cameraTwo.name);
+                cameraOne.GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1);
+                cameraTwo.GetComponent<Camera>().rect = new Rect(0.5f, 0, 1, 1);
+
+                TextMeshProUGUI[] tankTextMeshArray = tankOne.GetComponentsInChildren<TextMeshProUGUI>();
+                UnityEngine.UI.Image[] panelImage = tankOne.GetComponentsInChildren<UnityEngine.UI.Image>();
+                foreach (UnityEngine.UI.Image child in panelImage)
+                {
+                    if (child.name == "Panel")
+                    {
+                        Debug.Log(child.rectTransform.anchoredPosition);
+                        child.rectTransform.anchoredPosition = new Vector2(165, 228);
+                    }
+                }
+                foreach (TextMeshProUGUI child in tankTextMeshArray)
+                {
+                    Debug.Log(child.name);
+                    Vector2 originalTransform = child.rectTransform.anchoredPosition;
                     child.rectTransform.anchoredPosition = new Vector2(531, originalTransform.y);
+                }
+                playerTwoCont = playerOne;
             }
         }
+
         controllerOne.pawn = pawnOne;
         pawnOne.controller = controllerOne;
-
         // Should rename the playerOne variable
         tankOne.AddComponent<NoiseMaker>();
         pawnOne.noise = tankOne.GetComponent<NoiseMaker>();
@@ -199,6 +418,8 @@ public class GameManager : MonoBehaviour
 
         // Connect the components
         controllerOne.pawn = pawnOne;
+
+
     }
 
     public void SpawnAggressiveAI(PawnSpawnPoint spawnPoint)
@@ -253,7 +474,7 @@ public class GameManager : MonoBehaviour
     }
     public void SpawnObservantAI(PawnSpawnPoint spawnPoint)
     {
-        Debug.Log("SpawnObservantAI called");
+        //Debug.Log("SpawnObservantAI called");
         // Spawn the AI Controller at (0,0,0) with no rotation
         GameObject newAIContObj = Instantiate(aiObservantPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
@@ -279,7 +500,7 @@ public class GameManager : MonoBehaviour
     }
     public void SpawnSurvivorAI(PawnSpawnPoint spawnPoint)
     {
-        Debug.Log("SpawnSurvivorAI called");
+        //Debug.Log("SpawnSurvivorAI called");
         // Spawn the AI Controller at (0,0,0) with no rotation
         GameObject newAIContObj = Instantiate(aiSurvivorPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
@@ -346,6 +567,7 @@ public class GameManager : MonoBehaviour
         // Do Main menu
         currentState = GameState.MainMenuState;
         AudioSource[] sources = gameObject.GetComponents<AudioSource>();
+        destroyAllObjects = true;
     }
     public void ActivateOptionsScreen()
     {
@@ -383,8 +605,8 @@ public class GameManager : MonoBehaviour
     {
         // Deactivate all states
         DeactivateAllStates();
-        destroyAllObjects = true;
-        Debug.Log(destroyAllObjects);
+        //destroyAllObjects = true;
+        //Debug.Log(destroyAllObjects);
 
         // Activate the Gameplay state
         GameplayStateObject.SetActive(true);

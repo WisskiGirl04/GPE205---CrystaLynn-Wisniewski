@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using Unity.VisualScripting;
+using UnityEditorInternal.VersionControl;
 
 public class Health : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class Health : MonoBehaviour
         AudioSource[] sourcesArray = gameObject.GetComponents<AudioSource>();
         foreach (AudioSource sounds in sourcesArray)
         {
-            Debug.Log(sounds.clip.name);
+            //Debug.Log(sounds.clip.name);
             if (sounds.clip.name == "Tank Death")
             {
                 bulletMissed = sounds;
@@ -117,14 +118,38 @@ public class Health : MonoBehaviour
             {
                 GameManager.instance.playersAmount--;
                 Debug.Log("Die called, players amount is " + GameManager.instance.playersAmount);
-                GameManager.instance.ActivateGameOverScreen();
-                this.gameObject.GetComponent<PlayerController>().currentLives--;
+                //GameManager.instance.ActivateGameOverScreen();
+                this.gameObject.GetComponent<Pawn>().controller.currentLives--;
+                Debug.Log("current lives on death is " + this.gameObject.GetComponent<Pawn>().controller.currentLives);
+                //Destroy(this.gameObject.GetComponent<Pawn>().controller.gameObject);
+                Debug.Log(this.gameObject.name);
+                if (this.gameObject.GetComponent<Pawn>().controller.currentLives == 0)
+                {
+                    Debug.Log(this.gameObject.GetComponent<Pawn>().controller.currentLives);
+                    Debug.Log(this.gameObject.GetComponentInChildren<Camera>().gameObject.name);
+                    /*if (this.gameObject.GetComponentInChildren<Camera>().gameObject.name == "Camera1")
+                    {
+                        GameManager.instance.cameraTwo.rect = new Rect(0, 0, 1, 1);
+                    }
+                    if (this.gameObject.GetComponentInChildren<Camera>().gameObject.name == "Camera2")
+                    {
+                        Debug.Log(GameManager.instance.cameraOne.rect);
+                        GameManager.instance.cameraOne.rect = new Rect(0, 0, 1, 1);
+                        GameManager.instance.cameraTwo.rect = new Rect(0, 0, 0, 0);
+                        GameManager.instance.cameraTwo.depth = -1;
+                    }*/
+                }
             }
             Debug.Log("Destroy controller next");
-            Destroy(this.gameObject.GetComponent<Controller>());
+            if (this.gameObject.GetComponent<Pawn>().controller.name != "PlayerController")
+            {
+                this.gameObject.GetComponent<Pawn>().controller.GetComponent<AIController>().ChangeState(AIController.AIState.Idle);
+                Destroy(this.gameObject.GetComponent<Pawn>().controller.gameObject);
+            }
+            Debug.Log(this.gameObject.GetComponent<Pawn>().controller.name);
             Debug.Log("Destroy gameObject next");
-            //Destroy(this.gameObject);
         }
+//        Debug.Log(GameManager.instance.playersName);
     }
 
 }

@@ -324,12 +324,13 @@ MonoBehaviour:
   shooter: {fileID: 3590907488225077027}
   bulletPrefab: {fileID: 2813200230441028570, guid: b4c0bfca6d9ad6d4a91d336b84d578a6, type: 3}
   fireForce: 400
-  damageDone: 3
+  damageDone: 10
   bulletLifespan: 1.5
   fireRate: 0.3
   noise: {fileID: 0}
   noiseMakerVolume: 8
   controller: {fileID: 0}
+  playerIdentifier: 0
 --- !u!54 &7796654521693579037
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -418,6 +419,8 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 20
   healthCircle: {fileID: 3413781464077146598}
+  pickupClip: {fileID: 0}
+  bulletMissed: {fileID: 0}
 --- !u!114 &-3499932878427889210
 MonoBehaviour:
   m_ObjectHideFlags: 0

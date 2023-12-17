@@ -30,7 +30,7 @@ public class AIController : Controller
     // Start is called before the first frame update
     public override void Start()
     {
-        if (gameObject.GetComponent<Pawn>() != null)
+        if (pawn != null)
         {
             // If(when) we have a GameManager
             if (GameManager.instance != null)
@@ -44,6 +44,7 @@ public class AIController : Controller
                 }
             }
             base.Start();
+            //Debug.Log("ai controller setting start state");
             ChangeState(AIState.Patrol);
         }
     }
@@ -73,7 +74,7 @@ public class AIController : Controller
                     // Do work
                     DoIdleState();
                     // Check for transitions
-                    if (IsCanSee(target))
+                    if (IsHasTarget() && IsCanSee(target))
                     {
                         ChangeState(AIState.Seek);
                     }
@@ -118,6 +119,10 @@ public class AIController : Controller
                     if (IsHasTarget())
                     {
                         DoAttackState();
+                    }
+                    if (!IsHasTarget())
+                    {
+                        ChangeState(AIState.Idle);
                     }
                     break;
                 case AIState.Patrol:
@@ -194,10 +199,13 @@ public class AIController : Controller
 
     protected virtual void DoAttackState()
     {
-        // Chase
-        Seek(target);
-        // Shoot
-        Shoot();
+        if (target != null)
+        {
+            // Chase
+            Seek(target);
+            // Shoot
+            Shoot();
+        }
     }
 
     protected virtual void Flee()
@@ -230,11 +238,12 @@ public class AIController : Controller
         // If we have a enough waypoints in our list to move to a current waypoint
         if (patrolPoints.Length > currentPatrolPoint)
         {
+
             // Then seek that waypoint
             //...
             // if statement keeps coming back as not haveing an instance of an object for the object reference
             //if(this.gameObject.GetComponent<Pawn>().GetComponent<Health>().currentHealth > 0)
-                Seek(patrolPoints[currentPatrolPoint]);
+            Seek(patrolPoints[currentPatrolPoint]);
             // If we are close enough, then increment to next waypoint
             if (Vector3.Distance(pawn.transform.position, patrolPoints[currentPatrolPoint].position) < patrolPointStopDistance)
             {
@@ -399,7 +408,20 @@ public class AIController : Controller
             return false;
         }
     }
+    public void OnDestroy()
+    {
+        // If we have a GameManager
+        if (GameManager.instance != null)
+        {
+            // And it has a player(s) list
+            if (GameManager.instance.aiList != null)
+            {
+                // Unregister with the list
+                GameManager.instance.aiList.Remove(this);
 
+            }
+        }
+    }
 
 }
 

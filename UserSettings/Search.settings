@@ -8,9 +8,9 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"last_search.310DEAF1" = "camera"
+	"last_search.310DEAF1" = ""
 	"OpenInspectorPreview.310DEAF1" = "0"
-	"currentGroup.310DEAF1" = "scene"
+	"currentGroup.310DEAF1" = "all"
 }
 providers = {
 	packages = {
@@ -62,10 +62,13 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	""
+	"FindA"
+	"FindAllObjects"
+	"f"
 	"c"
 	"m"
 	"h: t=MeshFilter vertices>=1024"
-	""
 	"myCamer"
 	"p"
 ]

@@ -135,6 +135,10 @@ public class OptionsState : MonoBehaviour
         Debug.Log("Music Volume is " + GameManager.instance.MusicVolume.value + " .... and audio source volume is " + GameManager.instance.audioMixer.GetFloat("musicVolume", out music) + music);
     }
 
+    public void OnOptionsPlayPressed()
+    {
+       // if (current)
+    }
 
 
     /*   This is what I can use for toggle functions that will be called off of things like toggle buttons and input field changes

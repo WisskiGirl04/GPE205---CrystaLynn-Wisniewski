@@ -8,6 +8,7 @@ public class TankPawn : Pawn
 
     private Vector3 cameraPosition;
     private Quaternion cameraRotation;
+    public int playerIdentifier;
 
     // Start is called before the first frame update
     public override void Start()
@@ -16,7 +17,7 @@ public class TankPawn : Pawn
         
         if (gameObject.name != "SurvivorAI" && gameObject.name != "ObservantAI" && gameObject.name != "CowardlyAI" && gameObject.name != "AggressiveAI")
         {
-            Debug.Log("'tankPawn in player controller :" + gameObject.name);
+            //Debug.Log("'tankPawn in player controller :" + gameObject.name);
             GameObject cameraOne = gameObject.GetComponentInChildren<Camera>().gameObject;//FindObjectOfType<Camera>().gameObject;
             float positionX = gameObject.transform.position.x;
             float positionY = gameObject.transform.position.y;

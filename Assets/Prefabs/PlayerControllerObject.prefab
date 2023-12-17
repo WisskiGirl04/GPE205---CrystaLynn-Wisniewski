@@ -54,13 +54,17 @@ MonoBehaviour:
   pawn: {fileID: 6272908212998407304, guid: 44d0735f0e4151c46a38fc93112a3826, type: 3}
   score: 0
   scoreToAdd: 200
-  text: 
+  playersLives: 0
+  livesText: {fileID: 0}
+  scoreText: {fileID: 0}
   moveForwardKey: 119
   moveBackwardKey: 115
   rotateClockwiseKey: 100
   rotateCounterClockwiseKey: 97
   turboKey: 303
   shootKey: 32
+  startingLives: 2
+  currentLives: 0
 --- !u!114 &5125092301381876722
 MonoBehaviour:
   m_ObjectHideFlags: 0

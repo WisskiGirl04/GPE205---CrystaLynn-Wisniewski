@@ -15,6 +15,8 @@ public class AIAggresive : AIController
     public override void Update()
     {
         MakeDecisions();
+
+        //Debug.Log("!isHasTarget = " + !IsHasTarget());
     }
 
     public override void MakeDecisions()
@@ -25,11 +27,12 @@ public class AIAggresive : AIController
                 // Do work
                 DoIdleState();
                 // Check for transitions
-                if (IsCanSee(target))
+                //Debug.Log("!isHasTarget = " + !IsHasTarget());
+                if (IsHasTarget() && IsCanSee(target))
                 {
                     ChangeState(AIState.Seek);
                 }
-                if (!IsHasTarget() && IsDistanceLessThan(target, 10))
+                if (IsHasTarget() && IsDistanceLessThan(target, 10))
                 {
                     ChangeState(AIState.Seek);
                 }

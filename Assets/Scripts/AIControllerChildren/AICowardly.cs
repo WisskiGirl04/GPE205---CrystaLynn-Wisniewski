@@ -25,17 +25,16 @@ public class AICowardly : AIController
                 // Do work
                 DoIdleState();
                 // Check for transitions
-                if (IsCanSee(target))
+                if (IsHasTarget() && IsCanSee(target))
                 {
                     ChangeState(AIState.Seek);
                 }
-                if (!IsHasTarget() && IsDistanceLessThan(target, 10))
+                if (IsHasTarget() && IsDistanceLessThan(target, 10))
                 {
                     ChangeState(AIState.Seek);
                 }
                 else
                 {
-                    ChangeState(AIState.TargetPlayerOne);
                 }
                 break;
             case AIState.Seek:

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : Controller
 {
@@ -11,19 +12,16 @@ public class PlayerController : Controller
     public KeyCode turboKey;
     public KeyCode shootKey;
 
-    public int startingLives;
-    public int currentLives;
-
     // Start is called before the first frame update
     public override void Start()
     {
+        respawnsLeft = currentLives;
         // If(when) we have a GameManager
         if (GameManager.instance != null)
         {
             // And we have a player(s) list
             if (GameManager.instance.playersList != null)
             {
-                currentLives = startingLives;
                 // Add the PlayerControllerObject that is being created to the list
                 GameManager.instance.playersList.Add(this);
             }
@@ -38,11 +36,34 @@ public class PlayerController : Controller
     // Update is called once per frame
     public override void Update()
     { 
-        // Process our Keyboard Inputs
-        ProcessInputs();
+        if (pawn != null)
+        {
+            if (livesText == null)
+            {
+                foreach (Text text in pawn.GetComponentsInChildren<Text>())
+                {
+                    if (text.name == "Score")
+                    {
+                        scoreText = text;
+                        Debug.Log(this.scoreText.name);
+                        this.scoreText.text = score.ToString();
+                    }
+                    if (text.name == "Lives")
+                    {
+                        livesText = text;
+                        this.livesText.text = currentLives.ToString();
+                    }
+                }
+            }
+        }
+        if (respawnsLeft != 0)
+        {
+            // Process our Keyboard Inputs
+            ProcessInputs();
 
-        // Run the base (parent) class's Update
-        base.Update();
+            // Run the base (parent) class's Update
+            base.Update();
+        }
     }
 
     public override void ProcessInputs()
@@ -96,8 +117,8 @@ public class PlayerController : Controller
             // And it has a player(s) list
             if (GameManager.instance.playersList != null)
             {
-                // Unregister with the list
-                GameManager.instance.playersList.Remove(this);
+                    // Unregister with the list
+                    GameManager.instance.playersList.Remove(this);
             }
         }
     }
