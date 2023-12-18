@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using static GameManager;
 
 public class GamePlayState : MonoBehaviour
 {
-    private bool isPaused;
+    public bool isPaused;
+    public AIController.AIState stateHolder;
+
     private void Awake()
     {
 
@@ -38,17 +39,9 @@ public class GamePlayState : MonoBehaviour
             GameManager.instance.mapGenerator.GenerateMap();
             GameManager.instance.currentState = GameManager.GameState.GameplayState;
 
-            if (GameManager.instance.currentState == GameState.GameplayState && GameManager.instance.destroyAllObjects == false)
+            if (GameManager.instance.currentState == GameState.GameplayState && GameManager.instance.destroyAllObjects == false )
             {
                 GameManager.instance.spawnPoints = FindObjectsOfType<PawnSpawnPoint>();
-                /*       foreach (PawnSpawnPoint spawnP in GameManager.instance.spawnPoints)
-                       {
-                           Debug.Log(spawnP.gameObject.name);
-                       }  */
-                //Debug.Log(GameManager.instance.spawnPoints.Length);
-
-                if (GameManager.instance.currentState == GameState.GameplayState)
-                {
                     if (GameManager.instance.playersAmount <= 0)
                     {
                         GameManager.instance.playersAmount++;
@@ -59,7 +52,6 @@ public class GamePlayState : MonoBehaviour
                             GameManager.instance.SpawnPlayer(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
                         }
                     }
-                }
                 GameManager.instance.SpawnAggressiveAI(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
                 GameManager.instance.SpawnCowardlyAI(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
                 GameManager.instance.SpawnObservantAI(GameManager.instance.spawnPoints[Random.Range(0, GameManager.instance.spawnPoints.Length)]);
@@ -71,39 +63,38 @@ public class GamePlayState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        AIController.AIState stateHolder;
-        stateHolder = AIController.AIState.Patrol;
-        if (GameManager.instance.OptionsScreenStateObject.activeInHierarchy == true)
+        if (GameManager.instance.destroyAllObjects == true)
         {
-            Debug.Log("paused");
-            isPaused = true;
-            foreach (AIController ai in GameManager.instance.aiList)
+            if (GameManager.instance.isMultiplayer == false)
             {
-                Debug.Log(ai.gameObject.name);
-                Debug.Log("setting ai state");
-                stateHolder = ai.currentState;
-                ai.currentState = AIController.AIState.Idle;
-            }
-        }
-        if (GameManager.instance.OptionsScreenStateObject.activeInHierarchy == false)
-        {
-            //Debug.Log("playing");
-            if (isPaused == true)
-            {
-                foreach (AIController ai in GameManager.instance.aiList)
+                if (GameManager.instance.playerOneCont.gameObject.activeInHierarchy == true)
                 {
-                    ai.currentState = stateHolder;
+                    GameManager.instance.playerOneCont.GetComponent<PlayerController>().score = 0;
+                    GameManager.instance.playerOneCont.GetComponent<PlayerController>().scoreText.text = GameManager.instance.playerOneCont.GetComponent<PlayerController>().score.ToString();
+                    GameManager.instance.playerOneCont.GetComponent<PlayerController>().currentLives = GameManager.instance.startingLives;
+                    GameManager.instance.playerOneCont.GetComponent<PlayerController>().livesText.text = GameManager.instance.playerOneCont.GetComponent<PlayerController>().currentLives.ToString();
                 }
             }
-            isPaused = false;
+            if (GameManager.instance.isMultiplayer == true)
+            {
+                if (GameManager.instance.playerOneCont.gameObject.activeInHierarchy == true)
+                {
+                    GameManager.instance.playerOneCont.GetComponent<PlayerController>().score = 0;
+                    GameManager.instance.playerOneCont.GetComponent<PlayerController>().scoreText.text = GameManager.instance.playerOneCont.GetComponent<PlayerController>().score.ToString();
+                    GameManager.instance.playerOneCont.GetComponent<PlayerController>().currentLives = GameManager.instance.startingLives;
+                    GameManager.instance.playerOneCont.GetComponent<PlayerController>().livesText.text = GameManager.instance.playerOneCont.GetComponent<PlayerController>().currentLives.ToString();
+                }
+                if (GameManager.instance.playerTwoCont.gameObject.activeInHierarchy == true)
+                {
+                    GameManager.instance.playerTwoCont.GetComponent<PlayerController>().score = 0;
+                    GameManager.instance.playerTwoCont.GetComponent<PlayerController>().scoreText.text = GameManager.instance.playerTwoCont.GetComponent<PlayerController>().score.ToString();
+                    GameManager.instance.playerTwoCont.GetComponent<PlayerController>().currentLives = GameManager.instance.startingLives;
+                    GameManager.instance.playerTwoCont.GetComponent<PlayerController>().livesText.text = GameManager.instance.playerTwoCont.GetComponent<PlayerController>().currentLives.ToString();
+                }
+                GameManager.instance.destroyAllObjects = false;
+            }
         }
-
-        /*
-        if (GameManager.instance.currentState != GameManager.GameState.GameplayState && GameManager.instance.destroyAllObjects == false)
-        {
-            GameManager.instance.mapGenerator.GenerateMap();
-        } */
-        // ^^ not sure why this is here. triple check this
+        
     }
 }
    

@@ -28,7 +28,7 @@ public class AIAggresive : AIController
                 DoIdleState();
                 // Check for transitions
                 //Debug.Log("!isHasTarget = " + !IsHasTarget());
-                if (IsHasTarget() && IsCanSee(target))
+                /*if (IsHasTarget() && IsCanSee(target))
                 {
                     ChangeState(AIState.Seek);
                 }
@@ -39,7 +39,7 @@ public class AIAggresive : AIController
                 else
                 {
                     ChangeState(AIState.TargetPlayerOne);
-                }
+                }*/
                 break;
             case AIState.Seek:
                 // Do work
@@ -54,21 +54,21 @@ public class AIAggresive : AIController
                     //ChangeState(AIState.TargetPlayerOne);
                 }
                 break;
-            /*            case AIState.Flee:
-                            // Do work
-                            DoFleeState();
-                            // Check for transition
-                            if (IsHasTarget() && IsDistanceLessThan(target, 10))
-                            {
-                                //ChangeState(AIState.Idle);
-                                ChangeState(AIState.Patrol);
-                            }
-                            else
-                            {
-                                //ChangeState(AIState.TargetPlayerOne);
-                                ChangeState(AIState.Idle);
-                            }
-                            break;*/
+            case AIState.Flee:
+                // Do work
+                DoFleeState();
+                // Check for transition
+                if (IsHasTarget() && IsDistanceLessThan(target, 10))
+                {
+                    //ChangeState(AIState.Idle);
+                    ChangeState(AIState.Patrol);
+                }
+                else
+                {
+                    //ChangeState(AIState.TargetPlayerOne);
+                    ChangeState(AIState.Idle);
+                }
+                break;
             case AIState.SeekClosestPawn:
                 // Do Work
                 DoPawnSeekState();
@@ -76,10 +76,22 @@ public class AIAggresive : AIController
             case AIState.Attack:
                 // Do work
                 DoAttackState();
+                if (pawn.gameObject.GetComponent<Health>().currentHealth <= 5)
+                {
+                    ChangeState(AIState.Flee);
+                }
                 break;
             case AIState.Patrol:
                 // Do work
                 DoPatrolState();
+                if (IsHasTarget() && IsCanSee(target))
+                {
+                    ChangeState(AIState.Attack);
+                }
+                if (IsHasTarget() && IsCanHear(target))
+                {
+                    ChangeState(AIState.Attack);
+                }
                 break;
             case AIState.TargetPlayerOne:
                 DoChooseTargetState();

@@ -56,14 +56,11 @@ public class PlayerController : Controller
                 }
             }
         }
-        if (respawnsLeft != 0)
-        {
             // Process our Keyboard Inputs
             ProcessInputs();
 
             // Run the base (parent) class's Update
             base.Update();
-        }
     }
 
     public override void ProcessInputs()

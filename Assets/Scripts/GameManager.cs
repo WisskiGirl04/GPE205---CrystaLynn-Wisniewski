@@ -5,14 +5,13 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.UI;
 using UnityEditor;
 using UnityEngine.Audio;
 using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GameState { TitleScreenState, MainMenuState, OptionsScreenState, CreditsScreenState, GameplayState, GameOverState }
+    public enum GameState { TitleScreenState, MainMenuState, OptionsScreenState, CreditsScreenState, GameplayState, WinState, GameOverState }
     public GameState currentState;
 
     public static GameManager instance;
@@ -43,6 +42,8 @@ public class GameManager : MonoBehaviour
     public GameObject playerOneCont;
     public GameObject playerTwoCont;
 
+    public int winningScore;
+
     public List<GameObject> allObjects;
     public bool destroyAllObjects;
 
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
     public GameObject OptionsScreenStateObject;
     public GameObject CreditsScreenStateObject;
     public GameObject GameplayStateObject;
+    public GameObject WinScreenStateObject;
     public GameObject GameOverScreenStateObject;
 
     public UnityEngine.UI.Toggle MapOfDay;
@@ -153,11 +155,16 @@ public class GameManager : MonoBehaviour
 
             if (isMultiplayer == false)
             {
+                if (playerOneCont != null && playerOneCont.GetComponent<PlayerController>().score == winningScore)
+                {
+                    ActivateWinScreen();
+                }
                 if (playersAmount < 1)
                 {
                     if (playerOneCont != null && playerOneCont.GetComponent<PlayerController>().respawnsLeft == 0)
                     {
                         playerOneCont.gameObject.SetActive(false);
+                        ActivateGameOverScreen();
                     }
                     if (playerOneCont != null && playerOneCont.GetComponent<PlayerController>().respawnsLeft > 0)
                     {
@@ -169,6 +176,17 @@ public class GameManager : MonoBehaviour
             }
             if (isMultiplayer == true)
             {
+                if (playerOneCont != null && playerTwoCont != null)
+                {
+                    if (playerOneCont.GetComponent<PlayerController>().score == winningScore)
+                    {
+                        ActivateWinScreen();
+                    }
+                    if (playerTwoCont.GetComponent<PlayerController>().score == winningScore)
+                    {
+                        ActivateWinScreen();
+                    }
+                }
                 if (playerOneCont != null && playerOneCont.GetComponent<PlayerController>().respawnsLeft == 0)
                 {
                     playerOneCont.gameObject.SetActive(false);
@@ -218,13 +236,11 @@ public class GameManager : MonoBehaviour
                 }
             }
         } 
-        //Testing Scripting -- allObjects = GameObject.FindGameObjectsWithTag("MyGameObject");
         if (allObjects.Count <= 0)
         {
             foreach (GameObject Obj in GameObject.FindGameObjectsWithTag("MyGameObject"))
             {
                 allObjects.Add(Obj);
-                //Debug.Log("game object " + Obj.name + " to allObjects list in Game Manager script.");
             }
         }
         if (Input.GetKeyUp(KeyCode.Tab))
@@ -232,10 +248,25 @@ public class GameManager : MonoBehaviour
             if (currentState == GameState.GameplayState)
             {
                 OptionsScreenStateObject.SetActive(true);
+                
             }
             if (currentState != GameState.GameplayState)
             {
                 ActivateOptionsScreen();
+            }
+        }
+        GameplayStateObject.GetComponent<GamePlayState>().stateHolder = AIController.AIState.Patrol;
+        if (GameManager.instance.OptionsScreenStateObject.activeInHierarchy == true || GameManager.instance.MainMenuStateObject.activeInHierarchy == true)
+        {
+            GameplayStateObject.GetComponent<GamePlayState>().stateHolder = AIController.AIState.Patrol;
+            Debug.Log("paused");
+            GameplayStateObject.GetComponent<GamePlayState>().isPaused = true;
+            foreach (AIController ai in GameManager.instance.aiList)
+            {
+                Debug.Log(ai.gameObject.name);
+                Debug.Log("setting ai state");
+                GameplayStateObject.GetComponent<GamePlayState>().stateHolder = ai.currentState;
+                ai.currentState = AIController.AIState.Idle;
             }
         }
     }
@@ -262,11 +293,6 @@ public class GameManager : MonoBehaviour
        
         // Spawn our Tank object
         GameObject tankOne = Instantiate(playerTankPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
-        // Debug.Log("Player spawned at " + spawnPoint);
-        //playersAmount++;
-
-        Debug.Log("playeronecontroller t/f for null : " + playerOneCont);
-        Debug.Log("playertwocontroller t/f for null : " + playerTwoCont);
 
         // Get the Player Controller component and Pawn component
         Controller controllerOne = playerOne.GetComponent<Controller>();
@@ -283,7 +309,6 @@ public class GameManager : MonoBehaviour
             if (playerOneCont != null && playerOneCont.GetComponent<PlayerController>().respawnsLeft > 0)
             {
                 Destroy(playerOne.gameObject);
-                //playersAmount--;
                 playerOne = playerOneCont;
                 controllerOne = playerOne.GetComponent<Controller>();
                 controllerOne.respawnsLeft--;
@@ -303,7 +328,6 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("respawn player one!");
                     Destroy(playerOne.gameObject);
-                    //playersAmount--;
                     playerOne = playerOneCont;
                     controllerOne = playerOne.GetComponent<Controller>();
                     tankOne.GetComponentInChildren<Camera>().name = tankOne.GetComponentInChildren<Camera>().name + "1";
@@ -341,7 +365,6 @@ public class GameManager : MonoBehaviour
 
                         cameraTwo.GetComponent<Camera>().rect = new Rect(0, 0, 1, 1);
                     }
-                    //cameraTwo.GetComponent<Camera>().rect = new Rect(0.5f, 0, 1, 1);
                     TextMeshProUGUI[] tankTextMeshArray = tankOne.GetComponentsInChildren<TextMeshProUGUI>();
                     UnityEngine.UI.Image[] panelImage = tankOne.GetComponentsInChildren<UnityEngine.UI.Image>();
                     foreach (UnityEngine.UI.Image child in panelImage)
@@ -349,14 +372,22 @@ public class GameManager : MonoBehaviour
                         if (child.name == "Panel")
                         {
                             Debug.Log(child.rectTransform.anchoredPosition);
-                            child.rectTransform.anchoredPosition = new Vector2(165, 228);
+                            child.rectTransform.anchoredPosition = new Vector2(168, 228);
                         }
                     }
                     foreach (TextMeshProUGUI child in tankTextMeshArray)
                     {
                         Debug.Log(child.name);
-                        Vector2 originalTransform = child.rectTransform.anchoredPosition;
-                        child.rectTransform.anchoredPosition = new Vector2(531, originalTransform.y);
+                        if (child.name == "Score Text")
+                        {
+                            Vector2 originalTransform = child.rectTransform.anchoredPosition;
+                            child.rectTransform.anchoredPosition = new Vector2(580, originalTransform.y);
+                        }
+                        if (child.name == "Lives Text")
+                        {
+                            Vector2 originalTransform = child.rectTransform.anchoredPosition;
+                            child.rectTransform.anchoredPosition = new Vector2(540, originalTransform.y);
+                        }
                     }
                     controllerOne.respawnsLeft--;
                 }
@@ -390,14 +421,22 @@ public class GameManager : MonoBehaviour
                     if (child.name == "Panel")
                     {
                         Debug.Log(child.rectTransform.anchoredPosition);
-                        child.rectTransform.anchoredPosition = new Vector2(165, 228);
+                        child.rectTransform.anchoredPosition = new Vector2(168, 228);
                     }
                 }
                 foreach (TextMeshProUGUI child in tankTextMeshArray)
                 {
                     Debug.Log(child.name);
-                    Vector2 originalTransform = child.rectTransform.anchoredPosition;
-                    child.rectTransform.anchoredPosition = new Vector2(531, originalTransform.y);
+                    if (child.name == "Score Text")
+                    {
+                        Vector2 originalTransform = child.rectTransform.anchoredPosition;
+                        child.rectTransform.anchoredPosition = new Vector2(580, originalTransform.y);
+                    }
+                    if (child.name == "Lives Text")
+                    {
+                        Vector2 originalTransform = child.rectTransform.anchoredPosition;
+                        child.rectTransform.anchoredPosition = new Vector2(540, originalTransform.y);
+                    }
                 }
                 playerTwoCont = playerOne;
             }
@@ -535,7 +574,8 @@ public class GameManager : MonoBehaviour
         CreditsScreenStateObject.SetActive(false);
         GameplayStateObject.SetActive(false);
         GameOverScreenStateObject.SetActive(false);
-        
+        WinScreenStateObject.SetActive(false);
+
     }
 
     public void ActivateTitleScreen()
@@ -642,10 +682,21 @@ public class GameManager : MonoBehaviour
         GameOverScreenStateObject.SetActive(true);
         // Do game over screen
         currentState = GameState.GameOverState;
+        destroyAllObjects = true;
     }
+    public void ActivateWinScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate Game over screen
+        WinScreenStateObject.SetActive(true);
+        // Do game over screen
+        currentState = GameState.WinState;
+    }
+
     public void QuitGame()
     {
-        UnityEditor.EditorApplication.isPlaying = false;    
+        //UnityEditor.EditorApplication.isPlaying = false;    
         Application.Quit();
     }
 
